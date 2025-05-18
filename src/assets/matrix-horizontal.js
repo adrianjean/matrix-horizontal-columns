@@ -6,10 +6,11 @@ Garnish.$doc.ready(() => {
     }
 
     // Get settings with defaults
-    const settings = window.matrixHorizontalDragSettings || {};
+    const settings = window.matrixHorizontalColumnsSettings || {};
     const {
         enabled = true,
-        enabledSelectors = ['[data-attribute="cbColumn"]'],
+        columnSelectors = ['[data-attribute="cbColumn"]'],
+        rowSelectors = ['[data-attribute="cbRow"]'],
         scrollSpeed = 10,
         scrollThreshold = 100,
         minBlockWidth = 250,
@@ -29,13 +30,28 @@ Garnish.$doc.ready(() => {
     const originalDragInit = Garnish.Drag.prototype.init;
     const originalDragSortInit = Garnish.DragSort.prototype.init;
 
-    // Helper function to check if element is within enabled selectors
-    const isWithinEnabledSelector = (element) => {
-        return enabledSelectors.some(selector => $(element).closest(selector).length > 0);
+    // Helper function to check if element matches selectors
+    const matchesSelectors = (element, selectors) => {
+        return selectors.some(selector => $(element).is(selector) || $(element).closest(selector).length > 0);
+    };
+
+    // Helper function to get the container for an element
+    const getContainer = ($element) => {
+        // If element is a column, get its row container
+        if (matchesSelectors($element, columnSelectors)) {
+            return $element.closest('.blocks');
+        }
+        // If element is a row, get the matrix container
+        if (matchesSelectors($element, rowSelectors)) {
+            return $element.closest('.matrix-field');
+        }
+        return null;
     };
 
     // Helper function to handle automatic scrolling
     const handleAutoScroll = ($container) => {
+        if (!$container || !$container.length) return;
+
         const containerRect = $container[0].getBoundingClientRect();
 
         // Calculate distances from edges
@@ -44,8 +60,8 @@ Garnish.$doc.ready(() => {
 
         // Update scroll indicators if enabled
         if (showScrollIndicators) {
-            $container.parent().toggleClass('can-scroll-left', $container.scrollLeft() > 0);
-            $container.parent().toggleClass('can-scroll-right', 
+            $container.toggleClass('can-scroll-left', $container.scrollLeft() > 0);
+            $container.toggleClass('can-scroll-right', 
                 $container.scrollLeft() < $container[0].scrollWidth - $container[0].clientWidth);
         }
 
@@ -59,26 +75,34 @@ Garnish.$doc.ready(() => {
 
     // Override the drag initialization
     Garnish.Drag.prototype.init = function(items, settings) {
+        const $items = $(items);
+        const isColumn = matchesSelectors($items, columnSelectors);
+        const isRow = matchesSelectors($items, rowSelectors);
+
         // Check if this is a Matrix drag within enabled selectors
-        if ($(items).closest('.matrix-field').length && isWithinEnabledSelector(items)) {
-            const $container = $(items).closest('.blocks');
+        if ($items.closest('.matrix-field').length && (isColumn || isRow)) {
+            const $container = getContainer($items);
             
-            // Force horizontal dragging for Matrix
+            // Force horizontal dragging for columns, vertical for rows
             settings = $.extend({}, settings, {
-                axis: 'x',
+                axis: isColumn ? 'x' : 'y',
                 magnetStrength: magnetStrength,
                 helperLagBase: 1,
                 removeDraggee: false,
                 onDrag: function() {
-                    handleAutoScroll($container);
+                    if (isColumn) {
+                        handleAutoScroll($container);
+                    }
                 }
             });
 
             // Apply visual settings to dragged items
-            $(items).css({
-                'min-width': minBlockWidth + 'px',
-                'max-width': maxBlockWidth + 'px'
-            });
+            if (isColumn) {
+                $items.css({
+                    'min-width': minBlockWidth + 'px',
+                    'max-width': maxBlockWidth + 'px'
+                });
+            }
         }
         
         // Call the original init with our modified settings
@@ -87,21 +111,31 @@ Garnish.$doc.ready(() => {
 
     // Override DragSort initialization
     Garnish.DragSort.prototype.init = function(items, settings) {
+        const $items = $(items);
+        const isColumn = matchesSelectors($items, columnSelectors);
+        const isRow = matchesSelectors($items, rowSelectors);
+
         // Check if this is a Matrix drag sort within enabled selectors
-        if ($(items).closest('.matrix-field').length && isWithinEnabledSelector(items)) {
-            const $container = $(items).closest('.blocks');
+        if ($items.closest('.matrix-field').length && (isColumn || isRow)) {
+            const $container = getContainer($items);
             
-            // Force horizontal dragging and sorting for Matrix
+            // Force horizontal dragging and sorting for columns, vertical for rows
             settings = $.extend({}, settings, {
-                axis: 'x',
+                axis: isColumn ? 'x' : 'y',
                 magnetStrength: magnetStrength,
                 helperLagBase: 1,
                 removeDraggee: false,
                 onDrag: function() {
-                    handleAutoScroll($container);
+                    if (isColumn) {
+                        handleAutoScroll($container);
+                    }
                 },
-                // Customize the insertion point calculation for horizontal layout
+                // Customize the insertion point calculation
                 onInsertionPointChange: function($insertion, $item) {
+                    if (!isColumn) {
+                        return; // Let default behavior handle vertical sorting
+                    }
+
                     const containerLeft = $container.offset().left;
                     const mouseX = Garnish.mouseX;
                     const itemWidth = $item.outerWidth();
@@ -127,15 +161,17 @@ Garnish.$doc.ready(() => {
             });
 
             // Apply visual settings to helper
-            settings.helper = function($item) {
-                return $item.clone()
-                    .css({
-                        'opacity': dragOpacity,
-                        'transform': `scale(${dragScale})`,
-                        'min-width': minBlockWidth + 'px',
-                        'max-width': maxBlockWidth + 'px'
-                    });
-            };
+            if (isColumn) {
+                settings.helper = function($item) {
+                    return $item.clone()
+                        .css({
+                            'opacity': dragOpacity,
+                            'transform': `scale(${dragScale})`,
+                            'min-width': minBlockWidth + 'px',
+                            'max-width': maxBlockWidth + 'px'
+                        });
+                };
+            }
         }
         
         // Call the original init with our modified settings
@@ -144,19 +180,19 @@ Garnish.$doc.ready(() => {
 
     // Initialize scroll indicators if enabled
     if (showScrollIndicators) {
-        enabledSelectors.forEach(selector => {
-            $(`${selector} .matrix-field`).each(function() {
-                const $field = $(this);
-                const $blocks = $field.find('.blocks');
+        // Add indicators for column containers
+        columnSelectors.forEach(selector => {
+            $(`${selector}`).closest('.blocks').each(function() {
+                const $container = $(this);
                 
-                $blocks.on('scroll', function() {
-                    $field.toggleClass('can-scroll-left', $blocks.scrollLeft() > 0);
-                    $field.toggleClass('can-scroll-right', 
-                        $blocks.scrollLeft() < $blocks[0].scrollWidth - $blocks[0].clientWidth);
+                $container.on('scroll', function() {
+                    $container.toggleClass('can-scroll-left', $container.scrollLeft() > 0);
+                    $container.toggleClass('can-scroll-right', 
+                        $container.scrollLeft() < $container[0].scrollWidth - $container[0].clientWidth);
                 });
                 
                 // Trigger initial scroll check
-                $blocks.trigger('scroll');
+                $container.trigger('scroll');
             });
         });
     }

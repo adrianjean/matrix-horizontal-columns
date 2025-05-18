@@ -18,6 +18,21 @@ class Settings extends Model
     public bool $enabled = true;
 
     /**
+     * @var array<string> Matrix block types that should be treated as columns
+     */
+    public array $columnBlockTypes = ['cbColumn'];
+
+    /**
+     * @var array<string> Matrix block types that should be treated as rows
+     */
+    public array $rowBlockTypes = ['cbRow'];
+
+    /**
+     * @var array<string> Additional CSS selectors where horizontal columns should be enabled
+     */
+    public array $customSelectors = [];
+
+    /**
      * @var array<string> CSS selectors where horizontal columns should be enabled
      */
     public array $enabledSelectors = [];
@@ -72,6 +87,9 @@ class Settings extends Model
             [['scrollSpeed', 'scrollThreshold', 'minBlockWidth', 'maxBlockWidth', 'magnetStrength'], 'integer', 'min' => 0],
             [['dragOpacity'], 'number', 'min' => 0, 'max' => 1],
             [['dragScale'], 'number', 'min' => 0.5, 'max' => 2],
+            ['columnBlockTypes', 'each', 'rule' => ['string']],
+            ['rowBlockTypes', 'each', 'rule' => ['string']],
+            ['customSelectors', 'each', 'rule' => ['string']],
             ['enabledSelectors', 'each', 'rule' => ['string']],
         ];
     }
@@ -83,6 +101,9 @@ class Settings extends Model
     {
         return [
             'enabled' => \Craft::t('matrix-horizontal-columns', 'Enable Matrix Horizontal Columns'),
+            'columnBlockTypes' => \Craft::t('matrix-horizontal-columns', 'Column Block Types'),
+            'rowBlockTypes' => \Craft::t('matrix-horizontal-columns', 'Row Block Types'),
+            'customSelectors' => \Craft::t('matrix-horizontal-columns', 'Additional CSS Selectors'),
             'enabledSelectors' => \Craft::t('matrix-horizontal-columns', 'Enabled Selectors'),
             'scrollSpeed' => \Craft::t('matrix-horizontal-columns', 'Scroll Speed'),
             'scrollThreshold' => \Craft::t('matrix-horizontal-columns', 'Scroll Threshold'),

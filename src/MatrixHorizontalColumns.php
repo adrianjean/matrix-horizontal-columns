@@ -59,19 +59,31 @@ class MatrixHorizontalColumns extends Plugin
                         if ($view->getTemplateMode() === View::TEMPLATE_MODE_CP) {
                             $view->registerAssetBundle(MatrixHorizontalColumnsAsset::class);
 
+                            // Generate selectors from block types and custom selectors
+                            $settings = $this->getSettings();
+                            $columnSelectors = array_map(
+                                fn($type) => "[data-attribute=\"$type\"]",
+                                $settings->columnBlockTypes
+                            );
+                            $rowSelectors = array_map(
+                                fn($type) => "[data-attribute=\"$type\"]",
+                                $settings->rowBlockTypes
+                            );
+
                             // Pass settings to JavaScript
                             $view->registerJs(
                                 'window.matrixHorizontalColumnsSettings = ' . json_encode([
-                                    'enabled' => $this->getSettings()->enabled,
-                                    'enabledSelectors' => $this->getSettings()->enabledSelectors,
-                                    'scrollSpeed' => $this->getSettings()->scrollSpeed,
-                                    'scrollThreshold' => $this->getSettings()->scrollThreshold,
-                                    'minBlockWidth' => $this->getSettings()->minBlockWidth,
-                                    'maxBlockWidth' => $this->getSettings()->maxBlockWidth,
-                                    'dragOpacity' => $this->getSettings()->dragOpacity,
-                                    'dragScale' => $this->getSettings()->dragScale,
-                                    'magnetStrength' => $this->getSettings()->magnetStrength,
-                                    'showScrollIndicators' => $this->getSettings()->showScrollIndicators,
+                                    'enabled' => $settings->enabled,
+                                    'columnSelectors' => array_merge($columnSelectors, $settings->customSelectors),
+                                    'rowSelectors' => $rowSelectors,
+                                    'scrollSpeed' => $settings->scrollSpeed,
+                                    'scrollThreshold' => $settings->scrollThreshold,
+                                    'minBlockWidth' => $settings->minBlockWidth,
+                                    'maxBlockWidth' => $settings->maxBlockWidth,
+                                    'dragOpacity' => $settings->dragOpacity,
+                                    'dragScale' => $settings->dragScale,
+                                    'magnetStrength' => $settings->magnetStrength,
+                                    'showScrollIndicators' => $settings->showScrollIndicators,
                                 ], JSON_THROW_ON_ERROR) . ';',
                                 View::POS_BEGIN
                             );
