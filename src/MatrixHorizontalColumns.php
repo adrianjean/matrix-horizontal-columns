@@ -76,13 +76,8 @@ class MatrixHorizontalColumns extends Plugin
                                     'enabled' => $settings->enabled,
                                     'columnSelectors' => array_merge($columnSelectors, $settings->customSelectors),
                                     'rowSelectors' => $rowSelectors,
-                                    'scrollSpeed' => $settings->scrollSpeed,
-                                    'scrollThreshold' => $settings->scrollThreshold,
                                     'minBlockWidth' => $settings->minBlockWidth,
                                     'maxBlockWidth' => $settings->maxBlockWidth,
-                                    'dragOpacity' => $settings->dragOpacity,
-                                    'dragScale' => $settings->dragScale,
-                                    'magnetStrength' => $settings->magnetStrength,
                                     'showScrollIndicators' => $settings->showScrollIndicators,
                                 ], JSON_THROW_ON_ERROR) . ';',
                                 View::POS_BEGIN

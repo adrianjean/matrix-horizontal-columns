@@ -11,13 +11,8 @@ Garnish.$doc.ready(() => {
         enabled = true,
         columnSelectors = ['[data-attribute="cbColumn"]'],
         rowSelectors = ['[data-attribute="cbRow"]'],
-        scrollSpeed = 10,
-        scrollThreshold = 100,
         minBlockWidth = 250,
         maxBlockWidth = 500,
-        dragOpacity = 0.85,
-        dragScale = 1.02,
-        magnetStrength = 4,
         showScrollIndicators = true
     } = settings;
 
@@ -52,24 +47,11 @@ Garnish.$doc.ready(() => {
     const handleAutoScroll = ($container) => {
         if (!$container || !$container.length) return;
 
-        const containerRect = $container[0].getBoundingClientRect();
-
-        // Calculate distances from edges
-        const mouseDistanceFromLeft = Garnish.mouseX - containerRect.left;
-        const mouseDistanceFromRight = containerRect.right - Garnish.mouseX;
-
         // Update scroll indicators if enabled
         if (showScrollIndicators) {
             $container.toggleClass('can-scroll-left', $container.scrollLeft() > 0);
             $container.toggleClass('can-scroll-right', 
                 $container.scrollLeft() < $container[0].scrollWidth - $container[0].clientWidth);
-        }
-
-        // Auto-scroll based on mouse position
-        if (mouseDistanceFromLeft < scrollThreshold) {
-            $container.scrollLeft($container.scrollLeft() - scrollSpeed);
-        } else if (mouseDistanceFromRight < scrollThreshold) {
-            $container.scrollLeft($container.scrollLeft() + scrollSpeed);
         }
     };
 
@@ -86,7 +68,6 @@ Garnish.$doc.ready(() => {
             // Force horizontal dragging for columns, vertical for rows
             settings = $.extend({}, settings, {
                 axis: isColumn ? 'x' : 'y',
-                magnetStrength: magnetStrength,
                 helperLagBase: 1,
                 removeDraggee: false,
                 onDrag: function() {
@@ -122,7 +103,6 @@ Garnish.$doc.ready(() => {
             // Force horizontal dragging and sorting for columns, vertical for rows
             settings = $.extend({}, settings, {
                 axis: isColumn ? 'x' : 'y',
-                magnetStrength: magnetStrength,
                 helperLagBase: 1,
                 removeDraggee: false,
                 onDrag: function() {
@@ -165,8 +145,6 @@ Garnish.$doc.ready(() => {
                 settings.helper = function($item) {
                     return $item.clone()
                         .css({
-                            'opacity': dragOpacity,
-                            'transform': `scale(${dragScale})`,
                             'min-width': minBlockWidth + 'px',
                             'max-width': maxBlockWidth + 'px'
                         });
