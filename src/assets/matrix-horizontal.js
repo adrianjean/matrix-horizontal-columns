@@ -29,8 +29,8 @@ Garnish.$doc.ready(() => {
     const matchesBlockType = (element, blockType) => {
         if (!blockType) return false;
         const $element = $(element);
-        return $element.find(`[data-type="${blockType}"]`).length > 0 || 
-               $element.closest(`[data-type="${blockType}"]`).length > 0;
+        return $element.find(`[data-attribute="${blockType}"]`).length > 0 || 
+               $element.closest(`[data-attribute="${blockType}"]`).length > 0;
     };
 
     // Helper function to get the container for an element
@@ -162,7 +162,7 @@ Garnish.$doc.ready(() => {
     // Initialize scroll indicators if enabled
     if (showScrollIndicators && columnBlockType) {
         // Add indicators for column containers
-        $(`.matrix-field [data-type="${columnBlockType}"]`).closest('.blocks').each(function() {
+        $(`.matrix-field [data-attribute="${columnBlockType}"]`).closest('.blocks').each(function() {
             const $container = $(this);
             
             $container.on('scroll', function() {

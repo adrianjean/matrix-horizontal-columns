@@ -8,7 +8,7 @@
     overflow: hidden;
 }
 
-[data-type="cbRow"] .matrix-field .blocks {
+[data-attribute="cbRow"] .matrix-field .blocks {
     display: flex;
     flex-direction: row;
     gap: 10px;
