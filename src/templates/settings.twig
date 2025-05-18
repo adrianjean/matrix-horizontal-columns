@@ -97,58 +97,6 @@
             errors: settings.getErrors('maxBlockWidth'),
         }) }}
 
-        {{ forms.textField({
-            label: "Scroll Speed"|t('matrix-horizontal-columns'),
-            instructions: "Speed of auto-scrolling when dragging near edges"|t('matrix-horizontal-columns'),
-            id: 'scrollSpeed',
-            name: 'scrollSpeed',
-            value: settings.scrollSpeed,
-            type: 'number',
-            errors: settings.getErrors('scrollSpeed'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Scroll Threshold"|t('matrix-horizontal-columns'),
-            instructions: "Distance from edge to trigger auto-scroll (pixels)"|t('matrix-horizontal-columns'),
-            id: 'scrollThreshold',
-            name: 'scrollThreshold',
-            value: settings.scrollThreshold,
-            type: 'number',
-            errors: settings.getErrors('scrollThreshold'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Magnet Strength"|t('matrix-horizontal-columns'),
-            instructions: "Strength of magnetic snapping effect"|t('matrix-horizontal-columns'),
-            id: 'magnetStrength',
-            name: 'magnetStrength',
-            value: settings.magnetStrength,
-            type: 'number',
-            errors: settings.getErrors('magnetStrength'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Drag Opacity"|t('matrix-horizontal-columns'),
-            instructions: "Opacity of dragged columns (0-1)"|t('matrix-horizontal-columns'),
-            id: 'dragOpacity',
-            name: 'dragOpacity',
-            value: settings.dragOpacity,
-            type: 'number',
-            step: '0.1',
-            errors: settings.getErrors('dragOpacity'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Drag Scale"|t('matrix-horizontal-columns'),
-            instructions: "Scale factor for dragged columns"|t('matrix-horizontal-columns'),
-            id: 'dragScale',
-            name: 'dragScale',
-            value: settings.dragScale,
-            type: 'number',
-            step: '0.05',
-            errors: settings.getErrors('dragScale'),
-        }) }}
-
         {{ forms.lightswitchField({
             label: "Show Scroll Indicators"|t('matrix-horizontal-columns'),
             instructions: "Show visual indicators when scrolling horizontally"|t('matrix-horizontal-columns'),
