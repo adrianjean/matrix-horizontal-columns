@@ -2,7 +2,6 @@
     "name": "adrianjean/matrix-horizontal-columns",
     "description": "A Craft CMS plugin that enables horizontal column layout for Matrix fields",
     "type": "craft-plugin",
-    "version": "1.0.0",
     "keywords": [
         "craft",
         "cms",
