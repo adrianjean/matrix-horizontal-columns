@@ -43,14 +43,12 @@ class SettingsController extends Controller
 
         // Load the posted settings onto the model
         $settings->enabled = (bool)$request->getBodyParam('enabled', $settings->enabled);
+        $settings->columnBlockTypes = $request->getBodyParam('columnBlockTypes', $settings->columnBlockTypes);
+        $settings->rowBlockTypes = $request->getBodyParam('rowBlockTypes', $settings->rowBlockTypes);
+        $settings->customSelectors = $request->getBodyParam('customSelectors', $settings->customSelectors);
         $settings->enabledSelectors = $request->getBodyParam('enabledSelectors', $settings->enabledSelectors);
-        $settings->scrollSpeed = (int)$request->getBodyParam('scrollSpeed', $settings->scrollSpeed);
-        $settings->scrollThreshold = (int)$request->getBodyParam('scrollThreshold', $settings->scrollThreshold);
         $settings->minBlockWidth = (int)$request->getBodyParam('minBlockWidth', $settings->minBlockWidth);
         $settings->maxBlockWidth = (int)$request->getBodyParam('maxBlockWidth', $settings->maxBlockWidth);
-        $settings->dragOpacity = (float)$request->getBodyParam('dragOpacity', $settings->dragOpacity);
-        $settings->dragScale = (float)$request->getBodyParam('dragScale', $settings->dragScale);
-        $settings->magnetStrength = (int)$request->getBodyParam('magnetStrength', $settings->magnetStrength);
         $settings->showScrollIndicators = (bool)$request->getBodyParam('showScrollIndicators', $settings->showScrollIndicators);
 
         // Validate
@@ -68,14 +66,12 @@ class SettingsController extends Controller
         
         $config = [
             'enabled' => $settings->enabled,
+            'columnBlockTypes' => $settings->columnBlockTypes,
+            'rowBlockTypes' => $settings->rowBlockTypes,
+            'customSelectors' => $settings->customSelectors,
             'enabledSelectors' => $settings->enabledSelectors,
-            'scrollSpeed' => $settings->scrollSpeed,
-            'scrollThreshold' => $settings->scrollThreshold,
             'minBlockWidth' => $settings->minBlockWidth,
             'maxBlockWidth' => $settings->maxBlockWidth,
-            'dragOpacity' => $settings->dragOpacity,
-            'dragScale' => $settings->dragScale,
-            'magnetStrength' => $settings->magnetStrength,
             'showScrollIndicators' => $settings->showScrollIndicators,
         ];
 

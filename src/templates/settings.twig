@@ -18,26 +18,84 @@
             errors: settings.getErrors('enabled'),
         }) }}
 
+        <hr>
+
+        <h2>{{ "Block Type Settings"|t('matrix-horizontal-columns') }}</h2>
+
         {{ forms.editableTableField({
-            label: "Enabled Selectors"|t('matrix-horizontal-columns'),
-            instructions: "CSS selectors where horizontal columns should be enabled. One per row."|t('matrix-horizontal-columns'),
-            id: 'enabledSelectors',
-            name: 'enabledSelectors',
+            label: "Column Block Types"|t('matrix-horizontal-columns'),
+            instructions: "Matrix block types that should be treated as columns. One per row."|t('matrix-horizontal-columns'),
+            id: 'columnBlockTypes',
+            name: 'columnBlockTypes',
+            cols: [
+                {
+                    type: 'singleline',
+                    heading: 'Block Type Handle'|t('matrix-horizontal-columns'),
+                    placeholder: 'cbColumn'
+                }
+            ],
+            rows: settings.columnBlockTypes|map(type => [type]),
+            addRowLabel: "Add block type"|t('matrix-horizontal-columns'),
+            errors: settings.getErrors('columnBlockTypes'),
+        }) }}
+
+        {{ forms.editableTableField({
+            label: "Row Block Types"|t('matrix-horizontal-columns'),
+            instructions: "Matrix block types that should be treated as rows. One per row."|t('matrix-horizontal-columns'),
+            id: 'rowBlockTypes',
+            name: 'rowBlockTypes',
+            cols: [
+                {
+                    type: 'singleline',
+                    heading: 'Block Type Handle'|t('matrix-horizontal-columns'),
+                    placeholder: 'cbRow'
+                }
+            ],
+            rows: settings.rowBlockTypes|map(type => [type]),
+            addRowLabel: "Add block type"|t('matrix-horizontal-columns'),
+            errors: settings.getErrors('rowBlockTypes'),
+        }) }}
+
+        {{ forms.editableTableField({
+            label: "Additional CSS Selectors"|t('matrix-horizontal-columns'),
+            instructions: "Additional CSS selectors where horizontal columns should be enabled. One per row."|t('matrix-horizontal-columns'),
+            id: 'customSelectors',
+            name: 'customSelectors',
             cols: [
                 {
                     type: 'singleline',
                     heading: 'Selector'|t('matrix-horizontal-columns'),
-                    placeholder: '[data-attribute="cbColumn"]'
+                    placeholder: '[data-attribute="customColumn"]'
                 }
             ],
-            rows: settings.enabledSelectors|map(selector => [selector]),
+            rows: settings.customSelectors|map(selector => [selector]),
             addRowLabel: "Add selector"|t('matrix-horizontal-columns'),
-            errors: settings.getErrors('enabledSelectors'),
+            errors: settings.getErrors('customSelectors'),
         }) }}
 
         <hr>
 
-        <h2>{{ "Column Behavior Settings"|t('matrix-horizontal-columns') }}</h2>
+        <h2>{{ "Visual Settings"|t('matrix-horizontal-columns') }}</h2>
+
+        {{ forms.textField({
+            label: "Minimum Column Width"|t('matrix-horizontal-columns'),
+            instructions: "Minimum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
+            id: 'minBlockWidth',
+            name: 'minBlockWidth',
+            value: settings.minBlockWidth,
+            type: 'number',
+            errors: settings.getErrors('minBlockWidth'),
+        }) }}
+
+        {{ forms.textField({
+            label: "Maximum Column Width"|t('matrix-horizontal-columns'),
+            instructions: "Maximum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
+            id: 'maxBlockWidth',
+            name: 'maxBlockWidth',
+            value: settings.maxBlockWidth,
+            type: 'number',
+            errors: settings.getErrors('maxBlockWidth'),
+        }) }}
 
         {{ forms.textField({
             label: "Scroll Speed"|t('matrix-horizontal-columns'),
@@ -69,30 +127,6 @@
             errors: settings.getErrors('magnetStrength'),
         }) }}
 
-        <hr>
-
-        <h2>{{ "Visual Settings"|t('matrix-horizontal-columns') }}</h2>
-
-        {{ forms.textField({
-            label: "Minimum Column Width"|t('matrix-horizontal-columns'),
-            instructions: "Minimum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
-            id: 'minBlockWidth',
-            name: 'minBlockWidth',
-            value: settings.minBlockWidth,
-            type: 'number',
-            errors: settings.getErrors('minBlockWidth'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Maximum Column Width"|t('matrix-horizontal-columns'),
-            instructions: "Maximum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
-            id: 'maxBlockWidth',
-            name: 'maxBlockWidth',
-            value: settings.maxBlockWidth,
-            type: 'number',
-            errors: settings.getErrors('maxBlockWidth'),
-        }) }}
-
         {{ forms.textField({
             label: "Drag Opacity"|t('matrix-horizontal-columns'),
             instructions: "Opacity of dragged columns (0-1)"|t('matrix-horizontal-columns'),
@@ -117,7 +151,7 @@
 
         {{ forms.lightswitchField({
             label: "Show Scroll Indicators"|t('matrix-horizontal-columns'),
-            instructions: "Show visual indicators when auto-scrolling"|t('matrix-horizontal-columns'),
+            instructions: "Show visual indicators when scrolling horizontally"|t('matrix-horizontal-columns'),
             id: 'showScrollIndicators',
             name: 'showScrollIndicators',
             on: settings.showScrollIndicators,
