@@ -43,16 +43,12 @@ class SettingsController extends Controller
 
         // Load the posted settings onto the model
         $settings->enabled = (bool)$request->getBodyParam('enabled', $settings->enabled);
+        $settings->columnBlockType = trim($request->getBodyParam('columnBlockType', $settings->columnBlockType));
+        $settings->rowBlockType = trim($request->getBodyParam('rowBlockType', $settings->rowBlockType));
         
-        // Handle array values from editable tables
-        $columnBlockTypes = $request->getBodyParam('columnBlockTypes', []);
-        $settings->columnBlockTypes = array_filter(array_map('trim', is_array($columnBlockTypes) ? $columnBlockTypes : []));
-        
-        $rowBlockTypes = $request->getBodyParam('rowBlockTypes', []);
-        $settings->rowBlockTypes = array_filter(array_map('trim', is_array($rowBlockTypes) ? $rowBlockTypes : []));
-        
-        $customSelectors = $request->getBodyParam('customSelectors', []);
-        $settings->customSelectors = array_filter(array_map('trim', is_array($customSelectors) ? $customSelectors : []));
+        // Handle comma-separated values for custom selectors
+        $customSelectors = $request->getBodyParam('customSelectors', '');
+        $settings->customSelectors = array_filter(array_map('trim', explode(',', $customSelectors)));
         
         $settings->minBlockWidth = (int)$request->getBodyParam('minBlockWidth', $settings->minBlockWidth);
         $settings->maxBlockWidth = (int)$request->getBodyParam('maxBlockWidth', $settings->maxBlockWidth);

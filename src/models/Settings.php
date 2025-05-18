@@ -18,24 +18,19 @@ class Settings extends Model
     public bool $enabled = true;
 
     /**
-     * @var array<string> Matrix block types that should be treated as columns
+     * @var string Matrix block type that should be treated as a column
      */
-    public array $columnBlockTypes = ['cbColumn'];
+    public string $columnBlockType = 'cbColumn';
 
     /**
-     * @var array<string> Matrix block types that should be treated as rows
+     * @var string Matrix block type that should be treated as a row
      */
-    public array $rowBlockTypes = ['cbRow'];
+    public string $rowBlockType = 'cbRow';
 
     /**
      * @var array<string> Additional CSS selectors where horizontal columns should be enabled
      */
     public array $customSelectors = [];
-
-    /**
-     * @var array<string> CSS selectors where horizontal columns should be enabled
-     */
-    public array $enabledSelectors = [];
 
     /**
      * @var int Minimum width for Matrix columns (pixels)
@@ -60,10 +55,8 @@ class Settings extends Model
         return [
             [['enabled', 'showScrollIndicators'], 'boolean'],
             [['minBlockWidth', 'maxBlockWidth'], 'integer', 'min' => 0],
-            ['columnBlockTypes', 'each', 'rule' => ['string']],
-            ['rowBlockTypes', 'each', 'rule' => ['string']],
+            [['columnBlockType', 'rowBlockType'], 'string'],
             ['customSelectors', 'each', 'rule' => ['string']],
-            ['enabledSelectors', 'each', 'rule' => ['string']],
         ];
     }
 
@@ -74,10 +67,9 @@ class Settings extends Model
     {
         return [
             'enabled' => \Craft::t('matrix-horizontal-columns', 'Enable Matrix Horizontal Columns'),
-            'columnBlockTypes' => \Craft::t('matrix-horizontal-columns', 'Column Block Types'),
-            'rowBlockTypes' => \Craft::t('matrix-horizontal-columns', 'Row Block Types'),
+            'columnBlockType' => \Craft::t('matrix-horizontal-columns', 'Column Block Type'),
+            'rowBlockType' => \Craft::t('matrix-horizontal-columns', 'Row Block Type'),
             'customSelectors' => \Craft::t('matrix-horizontal-columns', 'Additional CSS Selectors'),
-            'enabledSelectors' => \Craft::t('matrix-horizontal-columns', 'Enabled Selectors'),
             'minBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Minimum Column Width'),
             'maxBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Maximum Column Width'),
             'showScrollIndicators' => \Craft::t('matrix-horizontal-columns', 'Show Scroll Indicators'),

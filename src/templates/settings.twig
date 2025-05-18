@@ -22,54 +22,33 @@
 
         <h2>{{ "Block Type Settings"|t('matrix-horizontal-columns') }}</h2>
 
-        {{ forms.editableTableField({
-            label: "Column Block Types"|t('matrix-horizontal-columns'),
-            instructions: "Matrix block types that should be treated as columns. One per row."|t('matrix-horizontal-columns'),
-            id: 'columnBlockTypes',
-            name: 'columnBlockTypes[]',
-            cols: [
-                {
-                    type: 'singleline',
-                    heading: 'Block Type Handle'|t('matrix-horizontal-columns'),
-                    placeholder: 'cbColumn'
-                }
-            ],
-            rows: settings.columnBlockTypes|default([])|map(type => [type]),
-            addRowLabel: "Add block type"|t('matrix-horizontal-columns'),
-            errors: settings.getErrors('columnBlockTypes'),
+        {{ forms.textField({
+            label: "Column Block Type"|t('matrix-horizontal-columns'),
+            instructions: "Matrix block type handle that should be treated as a column"|t('matrix-horizontal-columns'),
+            id: 'columnBlockType',
+            name: 'columnBlockType',
+            value: settings.columnBlockType,
+            placeholder: 'cbColumn',
+            errors: settings.getErrors('columnBlockType'),
         }) }}
 
-        {{ forms.editableTableField({
-            label: "Row Block Types"|t('matrix-horizontal-columns'),
-            instructions: "Matrix block types that should be treated as rows. One per row."|t('matrix-horizontal-columns'),
-            id: 'rowBlockTypes',
-            name: 'rowBlockTypes[]',
-            cols: [
-                {
-                    type: 'singleline',
-                    heading: 'Block Type Handle'|t('matrix-horizontal-columns'),
-                    placeholder: 'cbRow'
-                }
-            ],
-            rows: settings.rowBlockTypes|default([])|map(type => [type]),
-            addRowLabel: "Add block type"|t('matrix-horizontal-columns'),
-            errors: settings.getErrors('rowBlockTypes'),
+        {{ forms.textField({
+            label: "Row Block Type"|t('matrix-horizontal-columns'),
+            instructions: "Matrix block type handle that should be treated as a row"|t('matrix-horizontal-columns'),
+            id: 'rowBlockType',
+            name: 'rowBlockType',
+            value: settings.rowBlockType,
+            placeholder: 'cbRow',
+            errors: settings.getErrors('rowBlockType'),
         }) }}
 
-        {{ forms.editableTableField({
+        {{ forms.textField({
             label: "Additional CSS Selectors"|t('matrix-horizontal-columns'),
-            instructions: "Additional CSS selectors where horizontal columns should be enabled. One per row."|t('matrix-horizontal-columns'),
+            instructions: "Additional CSS selectors where horizontal columns should be enabled (comma-separated)"|t('matrix-horizontal-columns'),
             id: 'customSelectors',
-            name: 'customSelectors[]',
-            cols: [
-                {
-                    type: 'singleline',
-                    heading: 'Selector'|t('matrix-horizontal-columns'),
-                    placeholder: '[data-attribute="customColumn"]'
-                }
-            ],
-            rows: settings.customSelectors|default([])|map(selector => [selector]),
-            addRowLabel: "Add selector"|t('matrix-horizontal-columns'),
+            name: 'customSelectors',
+            value: settings.customSelectors|join(', '),
+            placeholder: '[data-type="column"], .custom-column',
             errors: settings.getErrors('customSelectors'),
         }) }}
 
