@@ -26,7 +26,7 @@
             label: "Column Block Types"|t('matrix-horizontal-columns'),
             instructions: "Matrix block types that should be treated as columns. One per row."|t('matrix-horizontal-columns'),
             id: 'columnBlockTypes',
-            name: 'columnBlockTypes',
+            name: 'columnBlockTypes[]',
             cols: [
                 {
                     type: 'singleline',
@@ -34,7 +34,7 @@
                     placeholder: 'cbColumn'
                 }
             ],
-            rows: settings.columnBlockTypes|map(type => [type]),
+            rows: settings.columnBlockTypes|default([])|map(type => [type]),
             addRowLabel: "Add block type"|t('matrix-horizontal-columns'),
             errors: settings.getErrors('columnBlockTypes'),
         }) }}
@@ -43,7 +43,7 @@
             label: "Row Block Types"|t('matrix-horizontal-columns'),
             instructions: "Matrix block types that should be treated as rows. One per row."|t('matrix-horizontal-columns'),
             id: 'rowBlockTypes',
-            name: 'rowBlockTypes',
+            name: 'rowBlockTypes[]',
             cols: [
                 {
                     type: 'singleline',
@@ -51,7 +51,7 @@
                     placeholder: 'cbRow'
                 }
             ],
-            rows: settings.rowBlockTypes|map(type => [type]),
+            rows: settings.rowBlockTypes|default([])|map(type => [type]),
             addRowLabel: "Add block type"|t('matrix-horizontal-columns'),
             errors: settings.getErrors('rowBlockTypes'),
         }) }}
@@ -60,7 +60,7 @@
             label: "Additional CSS Selectors"|t('matrix-horizontal-columns'),
             instructions: "Additional CSS selectors where horizontal columns should be enabled. One per row."|t('matrix-horizontal-columns'),
             id: 'customSelectors',
-            name: 'customSelectors',
+            name: 'customSelectors[]',
             cols: [
                 {
                     type: 'singleline',
@@ -68,7 +68,7 @@
                     placeholder: '[data-attribute="customColumn"]'
                 }
             ],
-            rows: settings.customSelectors|map(selector => [selector]),
+            rows: settings.customSelectors|default([])|map(selector => [selector]),
             addRowLabel: "Add selector"|t('matrix-horizontal-columns'),
             errors: settings.getErrors('customSelectors'),
         }) }}
@@ -84,6 +84,7 @@
             name: 'minBlockWidth',
             value: settings.minBlockWidth,
             type: 'number',
+            size: 6,
             errors: settings.getErrors('minBlockWidth'),
         }) }}
 
@@ -94,6 +95,7 @@
             name: 'maxBlockWidth',
             value: settings.maxBlockWidth,
             type: 'number',
+            size: 6,
             errors: settings.getErrors('maxBlockWidth'),
         }) }}
 

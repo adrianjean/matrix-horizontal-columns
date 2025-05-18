@@ -1,10 +1,10 @@
 <?php
-namespace modules\matrixhorizontaldrag\controllers;
+namespace adrianjean\matrixhorizontalcolumns\controllers;
 
 use Craft;
 use craft\web\Controller;
 use yii\web\Response;
-use modules\matrixhorizontaldrag\MatrixHorizontalDrag;
+use adrianjean\matrixhorizontalcolumns\MatrixHorizontalColumns;
 
 class SettingsController extends Controller
 {
@@ -22,11 +22,11 @@ class SettingsController extends Controller
      */
     public function actionIndex(): Response
     {
-        $settings = MatrixHorizontalDrag::$instance->getSettings();
+        $settings = MatrixHorizontalColumns::getInstance()->getSettings();
 
-        return $this->renderTemplate('matrix-horizontal-drag/settings', [
+        return $this->renderTemplate('matrix-horizontal-columns/settings', [
             'settings' => $settings,
-            'title' => Craft::t('matrix-horizontal-drag', 'Matrix Horizontal Drag Settings')
+            'title' => Craft::t('matrix-horizontal-columns', 'Matrix Horizontal Columns Settings')
         ]);
     }
 
@@ -38,53 +38,39 @@ class SettingsController extends Controller
         $this->requirePostRequest();
         $this->requireAdmin();
 
-        $settings = MatrixHorizontalDrag::$instance->getSettings();
+        $settings = MatrixHorizontalColumns::getInstance()->getSettings();
         $request = Craft::$app->getRequest();
 
         // Load the posted settings onto the model
         $settings->enabled = (bool)$request->getBodyParam('enabled', $settings->enabled);
-        $settings->columnBlockTypes = $request->getBodyParam('columnBlockTypes', $settings->columnBlockTypes);
-        $settings->rowBlockTypes = $request->getBodyParam('rowBlockTypes', $settings->rowBlockTypes);
-        $settings->customSelectors = $request->getBodyParam('customSelectors', $settings->customSelectors);
-        $settings->enabledSelectors = $request->getBodyParam('enabledSelectors', $settings->enabledSelectors);
+        
+        // Handle array values from editable tables
+        $columnBlockTypes = $request->getBodyParam('columnBlockTypes', []);
+        $settings->columnBlockTypes = array_filter(array_map('trim', is_array($columnBlockTypes) ? $columnBlockTypes : []));
+        
+        $rowBlockTypes = $request->getBodyParam('rowBlockTypes', []);
+        $settings->rowBlockTypes = array_filter(array_map('trim', is_array($rowBlockTypes) ? $rowBlockTypes : []));
+        
+        $customSelectors = $request->getBodyParam('customSelectors', []);
+        $settings->customSelectors = array_filter(array_map('trim', is_array($customSelectors) ? $customSelectors : []));
+        
         $settings->minBlockWidth = (int)$request->getBodyParam('minBlockWidth', $settings->minBlockWidth);
         $settings->maxBlockWidth = (int)$request->getBodyParam('maxBlockWidth', $settings->maxBlockWidth);
         $settings->showScrollIndicators = (bool)$request->getBodyParam('showScrollIndicators', $settings->showScrollIndicators);
 
         // Validate
         if (!$settings->validate()) {
-            Craft::$app->getSession()->setError(Craft::t('matrix-horizontal-drag', 'Could not save settings.'));
-            return $this->renderTemplate('matrix-horizontal-drag/settings', [
+            Craft::$app->getSession()->setError(Craft::t('matrix-horizontal-columns', 'Could not save settings.'));
+            return $this->renderTemplate('matrix-horizontal-columns/settings', [
                 'settings' => $settings,
-                'title' => Craft::t('matrix-horizontal-drag', 'Matrix Horizontal Drag Settings')
+                'title' => Craft::t('matrix-horizontal-columns', 'Matrix Horizontal Columns Settings')
             ]);
         }
 
-        // Save to config file
-        $configService = Craft::$app->getConfig();
-        $configPath = $configService->getConfigFilePath('matrix-horizontal-drag');
-        
-        $config = [
-            'enabled' => $settings->enabled,
-            'columnBlockTypes' => $settings->columnBlockTypes,
-            'rowBlockTypes' => $settings->rowBlockTypes,
-            'customSelectors' => $settings->customSelectors,
-            'enabledSelectors' => $settings->enabledSelectors,
-            'minBlockWidth' => $settings->minBlockWidth,
-            'maxBlockWidth' => $settings->maxBlockWidth,
-            'showScrollIndicators' => $settings->showScrollIndicators,
-        ];
+        // Save plugin settings
+        Craft::$app->getPlugins()->savePluginSettings(MatrixHorizontalColumns::getInstance(), $settings->toArray());
 
-        // Create config directory if it doesn't exist
-        $configDir = dirname($configPath);
-        if (!is_dir($configDir)) {
-            mkdir($configDir, 0777, true);
-        }
-
-        // Write the config file
-        file_put_contents($configPath, "<?php\nreturn " . var_export($config, true) . ";\n");
-
-        Craft::$app->getSession()->setNotice(Craft::t('matrix-horizontal-drag', 'Settings saved.'));
+        Craft::$app->getSession()->setNotice(Craft::t('matrix-horizontal-columns', 'Settings saved.'));
         return $this->redirectToPostedUrl();
     }
 } 
