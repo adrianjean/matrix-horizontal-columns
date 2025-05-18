@@ -9,8 +9,8 @@ Garnish.$doc.ready(() => {
     const settings = window.matrixHorizontalColumnsSettings || {};
     const {
         enabled = true,
-        columnSelectors = ['[data-attribute="cbColumn"]'],
-        rowSelectors = ['[data-attribute="cbRow"]'],
+        columnBlockType = '',
+        rowBlockType = '',
         minBlockWidth = 250,
         maxBlockWidth = 500,
         showScrollIndicators = true
@@ -25,19 +25,22 @@ Garnish.$doc.ready(() => {
     const originalDragInit = Garnish.Drag.prototype.init;
     const originalDragSortInit = Garnish.DragSort.prototype.init;
 
-    // Helper function to check if element matches selectors
-    const matchesSelectors = (element, selectors) => {
-        return selectors.some(selector => $(element).is(selector) || $(element).closest(selector).length > 0);
+    // Helper function to check if element matches block type
+    const matchesBlockType = (element, blockType) => {
+        if (!blockType) return false;
+        const $element = $(element);
+        return $element.find(`[data-type="${blockType}"]`).length > 0 || 
+               $element.closest(`[data-type="${blockType}"]`).length > 0;
     };
 
     // Helper function to get the container for an element
     const getContainer = ($element) => {
-        // If element is a column, get its row container
-        if (matchesSelectors($element, columnSelectors)) {
+        // If element is a column block, get its row container
+        if (matchesBlockType($element, columnBlockType)) {
             return $element.closest('.blocks');
         }
-        // If element is a row, get the matrix container
-        if (matchesSelectors($element, rowSelectors)) {
+        // If element is a row block, get the matrix container
+        if (matchesBlockType($element, rowBlockType)) {
             return $element.closest('.matrix-field');
         }
         return null;
@@ -58,10 +61,10 @@ Garnish.$doc.ready(() => {
     // Override the drag initialization
     Garnish.Drag.prototype.init = function(items, settings) {
         const $items = $(items);
-        const isColumn = matchesSelectors($items, columnSelectors);
-        const isRow = matchesSelectors($items, rowSelectors);
+        const isColumn = matchesBlockType($items, columnBlockType);
+        const isRow = matchesBlockType($items, rowBlockType);
 
-        // Check if this is a Matrix drag within enabled selectors
+        // Check if this is a Matrix drag within enabled block types
         if ($items.closest('.matrix-field').length && (isColumn || isRow)) {
             const $container = getContainer($items);
             
@@ -93,10 +96,10 @@ Garnish.$doc.ready(() => {
     // Override DragSort initialization
     Garnish.DragSort.prototype.init = function(items, settings) {
         const $items = $(items);
-        const isColumn = matchesSelectors($items, columnSelectors);
-        const isRow = matchesSelectors($items, rowSelectors);
+        const isColumn = matchesBlockType($items, columnBlockType);
+        const isRow = matchesBlockType($items, rowBlockType);
 
-        // Check if this is a Matrix drag sort within enabled selectors
+        // Check if this is a Matrix drag sort within enabled block types
         if ($items.closest('.matrix-field').length && (isColumn || isRow)) {
             const $container = getContainer($items);
             
@@ -157,21 +160,19 @@ Garnish.$doc.ready(() => {
     };
 
     // Initialize scroll indicators if enabled
-    if (showScrollIndicators) {
+    if (showScrollIndicators && columnBlockType) {
         // Add indicators for column containers
-        columnSelectors.forEach(selector => {
-            $(`${selector}`).closest('.blocks').each(function() {
-                const $container = $(this);
-                
-                $container.on('scroll', function() {
-                    $container.toggleClass('can-scroll-left', $container.scrollLeft() > 0);
-                    $container.toggleClass('can-scroll-right', 
-                        $container.scrollLeft() < $container[0].scrollWidth - $container[0].clientWidth);
-                });
-                
-                // Trigger initial scroll check
-                $container.trigger('scroll');
+        $(`.matrix-field [data-type="${columnBlockType}"]`).closest('.blocks').each(function() {
+            const $container = $(this);
+            
+            $container.on('scroll', function() {
+                $container.toggleClass('can-scroll-left', $container.scrollLeft() > 0);
+                $container.toggleClass('can-scroll-right', 
+                    $container.scrollLeft() < $container[0].scrollWidth - $container[0].clientWidth);
             });
+            
+            // Trigger initial scroll check
+            $container.trigger('scroll');
         });
     }
 });

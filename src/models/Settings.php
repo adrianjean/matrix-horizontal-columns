@@ -28,11 +28,6 @@ class Settings extends Model
     public string $rowBlockType = 'cbRow';
 
     /**
-     * @var array<string> Additional CSS selectors where horizontal columns should be enabled
-     */
-    public array $customSelectors = [];
-
-    /**
      * @var int Minimum width for Matrix columns (pixels)
      */
     public int $minBlockWidth = 200;
@@ -56,7 +51,6 @@ class Settings extends Model
             [['enabled', 'showScrollIndicators'], 'boolean'],
             [['minBlockWidth', 'maxBlockWidth'], 'integer', 'min' => 0],
             [['columnBlockType', 'rowBlockType'], 'string'],
-            ['customSelectors', 'each', 'rule' => ['string']],
         ];
     }
 
@@ -69,7 +63,6 @@ class Settings extends Model
             'enabled' => \Craft::t('matrix-horizontal-columns', 'Enable Matrix Horizontal Columns'),
             'columnBlockType' => \Craft::t('matrix-horizontal-columns', 'Column Block Type'),
             'rowBlockType' => \Craft::t('matrix-horizontal-columns', 'Row Block Type'),
-            'customSelectors' => \Craft::t('matrix-horizontal-columns', 'Additional CSS Selectors'),
             'minBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Minimum Column Width'),
             'maxBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Maximum Column Width'),
             'showScrollIndicators' => \Craft::t('matrix-horizontal-columns', 'Show Scroll Indicators'),

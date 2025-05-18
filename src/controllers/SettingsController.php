@@ -45,11 +45,6 @@ class SettingsController extends Controller
         $settings->enabled = (bool)$request->getBodyParam('enabled', $settings->enabled);
         $settings->columnBlockType = trim($request->getBodyParam('columnBlockType', $settings->columnBlockType));
         $settings->rowBlockType = trim($request->getBodyParam('rowBlockType', $settings->rowBlockType));
-        
-        // Handle comma-separated values for custom selectors
-        $customSelectors = $request->getBodyParam('customSelectors', '');
-        $settings->customSelectors = array_filter(array_map('trim', explode(',', $customSelectors)));
-        
         $settings->minBlockWidth = (int)$request->getBodyParam('minBlockWidth', $settings->minBlockWidth);
         $settings->maxBlockWidth = (int)$request->getBodyParam('maxBlockWidth', $settings->maxBlockWidth);
         $settings->showScrollIndicators = (bool)$request->getBodyParam('showScrollIndicators', $settings->showScrollIndicators);

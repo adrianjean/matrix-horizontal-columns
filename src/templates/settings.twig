@@ -42,16 +42,6 @@
             errors: settings.getErrors('rowBlockType'),
         }) }}
 
-        {{ forms.textField({
-            label: "Additional CSS Selectors"|t('matrix-horizontal-columns'),
-            instructions: "Additional CSS selectors where horizontal columns should be enabled (comma-separated)"|t('matrix-horizontal-columns'),
-            id: 'customSelectors',
-            name: 'customSelectors',
-            value: settings.customSelectors|join(', '),
-            placeholder: '[data-type="column"], .custom-column',
-            errors: settings.getErrors('customSelectors'),
-        }) }}
-
         <hr>
 
         <h2>{{ "Visual Settings"|t('matrix-horizontal-columns') }}</h2>
