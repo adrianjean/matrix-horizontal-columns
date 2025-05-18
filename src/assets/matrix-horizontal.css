@@ -1,0 +1,74 @@
+.matrixblock {
+    width: 100%;
+    transition: transform 0.2s ease-out;
+}
+
+.matrix-field {
+    position: relative;
+    overflow: hidden;
+}
+
+[data-type="cbRow"] .matrix-field .blocks {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    min-height: 100px;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.matrix-field .block {
+    flex: 0 0 auto;
+    min-width: 250px;
+    max-width: 500px;
+    position: relative;
+}
+
+/* Drag helper styles */
+.matrix-field .block.draghelper {
+    opacity: 0.85;
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+/* Drag insertion point indicator */
+.matrix-field .insertion {
+    position: absolute;
+    width: 4px;
+    background: var(--primary-color);
+    height: calc(100% - 20px);
+    top: 10px;
+    transition: transform 0.15s ease-out;
+}
+
+/* Scroll indicators */
+.matrix-field::before,
+.matrix-field::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1;
+}
+
+.matrix-field::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.9), transparent);
+}
+
+.matrix-field::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+}
+
+.matrix-field.can-scroll-left::before,
+.matrix-field.can-scroll-right::after {
+    opacity: 1;
+}

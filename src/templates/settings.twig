@@ -1,0 +1,133 @@
+{% extends "_layouts/cp" %}
+{% import "_includes/forms" as forms %}
+
+{% set title = "Matrix Horizontal Columns Settings"|t('matrix-horizontal-columns') %}
+
+{% block content %}
+    <form method="post" accept-charset="UTF-8" data-saveshortcut>
+        {{ csrfInput() }}
+        {{ actionInput('matrix-horizontal-columns/settings/save') }}
+        {{ redirectInput('settings/matrix-horizontal-columns') }}
+
+        {{ forms.lightswitchField({
+            label: "Enable Matrix Horizontal Columns"|t('matrix-horizontal-columns'),
+            instructions: "Enable or disable the horizontal columns functionality"|t('matrix-horizontal-columns'),
+            id: 'enabled',
+            name: 'enabled',
+            on: settings.enabled,
+            errors: settings.getErrors('enabled'),
+        }) }}
+
+        {{ forms.editableTableField({
+            label: "Enabled Selectors"|t('matrix-horizontal-columns'),
+            instructions: "CSS selectors where horizontal columns should be enabled. One per row."|t('matrix-horizontal-columns'),
+            id: 'enabledSelectors',
+            name: 'enabledSelectors',
+            cols: [
+                {
+                    type: 'singleline',
+                    heading: 'Selector'|t('matrix-horizontal-columns'),
+                    placeholder: '[data-attribute="cbColumn"]'
+                }
+            ],
+            rows: settings.enabledSelectors|map(selector => [selector]),
+            addRowLabel: "Add selector"|t('matrix-horizontal-columns'),
+            errors: settings.getErrors('enabledSelectors'),
+        }) }}
+
+        <hr>
+
+        <h2>{{ "Column Behavior Settings"|t('matrix-horizontal-columns') }}</h2>
+
+        {{ forms.textField({
+            label: "Scroll Speed"|t('matrix-horizontal-columns'),
+            instructions: "Speed of auto-scrolling when dragging near edges"|t('matrix-horizontal-columns'),
+            id: 'scrollSpeed',
+            name: 'scrollSpeed',
+            value: settings.scrollSpeed,
+            type: 'number',
+            errors: settings.getErrors('scrollSpeed'),
+        }) }}
+
+        {{ forms.textField({
+            label: "Scroll Threshold"|t('matrix-horizontal-columns'),
+            instructions: "Distance from edge to trigger auto-scroll (pixels)"|t('matrix-horizontal-columns'),
+            id: 'scrollThreshold',
+            name: 'scrollThreshold',
+            value: settings.scrollThreshold,
+            type: 'number',
+            errors: settings.getErrors('scrollThreshold'),
+        }) }}
+
+        {{ forms.textField({
+            label: "Magnet Strength"|t('matrix-horizontal-columns'),
+            instructions: "Strength of magnetic snapping effect"|t('matrix-horizontal-columns'),
+            id: 'magnetStrength',
+            name: 'magnetStrength',
+            value: settings.magnetStrength,
+            type: 'number',
+            errors: settings.getErrors('magnetStrength'),
+        }) }}
+
+        <hr>
+
+        <h2>{{ "Visual Settings"|t('matrix-horizontal-columns') }}</h2>
+
+        {{ forms.textField({
+            label: "Minimum Column Width"|t('matrix-horizontal-columns'),
+            instructions: "Minimum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
+            id: 'minBlockWidth',
+            name: 'minBlockWidth',
+            value: settings.minBlockWidth,
+            type: 'number',
+            errors: settings.getErrors('minBlockWidth'),
+        }) }}
+
+        {{ forms.textField({
+            label: "Maximum Column Width"|t('matrix-horizontal-columns'),
+            instructions: "Maximum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
+            id: 'maxBlockWidth',
+            name: 'maxBlockWidth',
+            value: settings.maxBlockWidth,
+            type: 'number',
+            errors: settings.getErrors('maxBlockWidth'),
+        }) }}
+
+        {{ forms.textField({
+            label: "Drag Opacity"|t('matrix-horizontal-columns'),
+            instructions: "Opacity of dragged columns (0-1)"|t('matrix-horizontal-columns'),
+            id: 'dragOpacity',
+            name: 'dragOpacity',
+            value: settings.dragOpacity,
+            type: 'number',
+            step: '0.1',
+            errors: settings.getErrors('dragOpacity'),
+        }) }}
+
+        {{ forms.textField({
+            label: "Drag Scale"|t('matrix-horizontal-columns'),
+            instructions: "Scale factor for dragged columns"|t('matrix-horizontal-columns'),
+            id: 'dragScale',
+            name: 'dragScale',
+            value: settings.dragScale,
+            type: 'number',
+            step: '0.05',
+            errors: settings.getErrors('dragScale'),
+        }) }}
+
+        {{ forms.lightswitchField({
+            label: "Show Scroll Indicators"|t('matrix-horizontal-columns'),
+            instructions: "Show visual indicators when auto-scrolling"|t('matrix-horizontal-columns'),
+            id: 'showScrollIndicators',
+            name: 'showScrollIndicators',
+            on: settings.showScrollIndicators,
+            errors: settings.getErrors('showScrollIndicators'),
+        }) }}
+
+        <hr>
+
+        <div class="buttons">
+            <button type="submit" class="btn submit">{{ "Save"|t('matrix-horizontal-columns') }}</button>
+        </div>
+    </form>
+{% endblock %} 

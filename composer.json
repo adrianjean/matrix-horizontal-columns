@@ -1,0 +1,43 @@
+{
+    "name": "adrianjean/matrix-horizontal-columns",
+    "description": "A Craft CMS plugin that enables horizontal column layout for Matrix fields",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "matrix",
+        "columns"
+    ],
+    "support": {
+        "docs": "https://github.com/adrianjean/matrix-horizontal-columns/blob/master/README.md",
+        "issues": "https://github.com/adrianjean/matrix-horizontal-columns/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "adrianjean",
+            "homepage": "https://github.com/adrianjean"
+        }
+    ],
+    "require": {
+        "php": "^8.2.0",
+        "craftcms/cms": "^5.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "adrianjean\\matrixhorizontalcolumns\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Matrix Horizontal Columns",
+        "handle": "matrix-horizontal-columns",
+        "class": "adrianjean\\matrixhorizontalcolumns\\MatrixHorizontalColumns",
+        "schemaVersion": "1.0.0",
+        "developer": "adrianjean",
+        "documentationUrl": "https://github.com/adrianjean/matrix-horizontal-columns/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/adrianjean/matrix-horizontal-columns/master/CHANGELOG.md"
+    }
+} 
