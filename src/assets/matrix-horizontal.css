@@ -8,7 +8,8 @@
     overflow: hidden;
 }
 
-[data-attribute="cbRow"] .matrix-field .blocks {
+/* Row container */
+[data-type="cbRow"] > .blocks {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -17,8 +18,10 @@
     min-height: 100px;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    position: relative; /* For scroll indicators */
 }
 
+/* Column blocks */
 .matrix-field .block {
     flex: 0 0 auto;
     min-width: 250px;
@@ -45,8 +48,8 @@
 }
 
 /* Scroll indicators */
-.matrix-field::before,
-.matrix-field::after {
+.blocks::before,
+.blocks::after {
     content: '';
     position: absolute;
     top: 0;
@@ -58,17 +61,28 @@
     z-index: 1;
 }
 
-.matrix-field::before {
+.blocks::before {
     left: 0;
     background: linear-gradient(to right, rgba(255,255,255,0.9), transparent);
 }
 
-.matrix-field::after {
+.blocks::after {
     right: 0;
     background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
 }
 
-.matrix-field.can-scroll-left::before,
-.matrix-field.can-scroll-right::after {
+.blocks.can-scroll-left::before,
+.blocks.can-scroll-right::after {
+    opacity: 1;
+}
+
+/* Ensure move handle is visible and clickable */
+.matrix-field .block .move {
+    cursor: move;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.matrix-field .block:hover .move {
     opacity: 1;
 }

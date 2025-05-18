@@ -59,23 +59,13 @@ class MatrixHorizontalColumns extends Plugin
                         if ($view->getTemplateMode() === View::TEMPLATE_MODE_CP) {
                             $view->registerAssetBundle(MatrixHorizontalColumnsAsset::class);
 
-                            // Generate selectors from block types and custom selectors
-                            $settings = $this->getSettings();
-                            $columnSelectors = array_map(
-                                fn($type) => "[data-attribute=\"$type\"]",
-                                $settings->columnBlockTypes
-                            );
-                            $rowSelectors = array_map(
-                                fn($type) => "[data-attribute=\"$type\"]",
-                                $settings->rowBlockTypes
-                            );
-
                             // Pass settings to JavaScript
+                            $settings = $this->getSettings();
                             $view->registerJs(
                                 'window.matrixHorizontalColumnsSettings = ' . json_encode([
                                     'enabled' => $settings->enabled,
-                                    'columnSelectors' => array_merge($columnSelectors, $settings->customSelectors),
-                                    'rowSelectors' => $rowSelectors,
+                                    'columnBlockType' => $settings->columnBlockType,
+                                    'rowBlockType' => $settings->rowBlockType,
                                     'minBlockWidth' => $settings->minBlockWidth,
                                     'maxBlockWidth' => $settings->maxBlockWidth,
                                     'showScrollIndicators' => $settings->showScrollIndicators,
