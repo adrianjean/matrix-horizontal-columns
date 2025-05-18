@@ -9,9 +9,11 @@
         {{ actionInput('matrix-horizontal-columns/settings/save') }}
         {{ redirectInput('settings/matrix-horizontal-columns') }}
 
+        <h2>{{ "General Settings"|t('matrix-horizontal-columns') }}</h2>
+
+        
         {{ forms.lightswitchField({
             label: "Enable Matrix Horizontal Columns"|t('matrix-horizontal-columns'),
-            instructions: "Enable or disable the horizontal columns functionality"|t('matrix-horizontal-columns'),
             id: 'enabled',
             name: 'enabled',
             on: settings.enabled,
@@ -21,20 +23,12 @@
         <hr>
 
         <h2>{{ "Block Type Settings"|t('matrix-horizontal-columns') }}</h2>
+        <p>{{"For this plugin to work you need to have a nested Row -> Column approach to your matrix in matrix structure. Enter the handle for the entry type for each level of your matrix structure."|t}}
+
 
         {{ forms.textField({
-            label: "Column Block Type"|t('matrix-horizontal-columns'),
-            instructions: "Matrix block type handle that should be treated as a column"|t('matrix-horizontal-columns'),
-            id: 'columnBlockType',
-            name: 'columnBlockType',
-            value: settings.columnBlockType,
-            placeholder: 'cbColumn',
-            errors: settings.getErrors('columnBlockType'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Row Block Type"|t('matrix-horizontal-columns'),
-            instructions: "Matrix block type handle that should be treated as a row"|t('matrix-horizontal-columns'),
+            label: "Row Entry Type Handle"|t('matrix-horizontal-columns'),
+            instructions: "Handle of the entry type you use for the 'Row' structure in your Maxtrix field. (Default: **cbRow**)"|t('matrix-horizontal-columns'),
             id: 'rowBlockType',
             name: 'rowBlockType',
             value: settings.rowBlockType,
@@ -42,13 +36,22 @@
             errors: settings.getErrors('rowBlockType'),
         }) }}
 
+        {{ forms.textField({
+            label: "Column Entry Type Handle"|t('matrix-horizontal-columns'),
+            instructions: "Handle of the entry type you use for the 'Column' structure in your Maxtrix field.. (Default: **cbColumn**)"|t('matrix-horizontal-columns'),
+            id: 'columnBlockType',
+            name: 'columnBlockType',
+            value: settings.columnBlockType,
+            placeholder: 'cbColumn',
+            errors: settings.getErrors('columnBlockType'),
+        }) }}
+
         <hr>
 
         <h2>{{ "Visual Settings"|t('matrix-horizontal-columns') }}</h2>
 
         {{ forms.textField({
-            label: "Minimum Column Width"|t('matrix-horizontal-columns'),
-            instructions: "Minimum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
+            label: "Minimum Column Width (pixels)"|t('matrix-horizontal-columns'),
             id: 'minBlockWidth',
             name: 'minBlockWidth',
             value: settings.minBlockWidth,
@@ -58,23 +61,13 @@
         }) }}
 
         {{ forms.textField({
-            label: "Maximum Column Width"|t('matrix-horizontal-columns'),
-            instructions: "Maximum width for Matrix columns (pixels)"|t('matrix-horizontal-columns'),
+            label: "Maximum Column Width (pixels)"|t('matrix-horizontal-columns'),
             id: 'maxBlockWidth',
             name: 'maxBlockWidth',
             value: settings.maxBlockWidth,
             type: 'number',
             size: 6,
             errors: settings.getErrors('maxBlockWidth'),
-        }) }}
-
-        {{ forms.lightswitchField({
-            label: "Show Scroll Indicators"|t('matrix-horizontal-columns'),
-            instructions: "Show visual indicators when scrolling horizontally"|t('matrix-horizontal-columns'),
-            id: 'showScrollIndicators',
-            name: 'showScrollIndicators',
-            on: settings.showScrollIndicators,
-            errors: settings.getErrors('showScrollIndicators'),
         }) }}
 
         <hr>

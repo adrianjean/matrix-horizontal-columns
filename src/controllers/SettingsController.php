@@ -47,7 +47,6 @@ class SettingsController extends Controller
         $settings->rowBlockType = trim($request->getBodyParam('rowBlockType', $settings->rowBlockType));
         $settings->minBlockWidth = (int)$request->getBodyParam('minBlockWidth', $settings->minBlockWidth);
         $settings->maxBlockWidth = (int)$request->getBodyParam('maxBlockWidth', $settings->maxBlockWidth);
-        $settings->showScrollIndicators = (bool)$request->getBodyParam('showScrollIndicators', $settings->showScrollIndicators);
 
         // Validate
         if (!$settings->validate()) {

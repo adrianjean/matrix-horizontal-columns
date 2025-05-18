@@ -38,17 +38,12 @@ class Settings extends Model
     public int $maxBlockWidth = 800;
 
     /**
-     * @var bool Whether to show scroll indicators
-     */
-    public bool $showScrollIndicators = true;
-
-    /**
      * @inheritdoc
      */
     public function rules(): array
     {
         return [
-            [['enabled', 'showScrollIndicators'], 'boolean'],
+            ['enabled', 'boolean'],
             [['minBlockWidth', 'maxBlockWidth'], 'integer', 'min' => 100, 'max' => 2000],
             [['columnBlockType', 'rowBlockType'], 'string', 'min' => 1],
             [['columnBlockType', 'rowBlockType'], 'required'],
@@ -69,7 +64,6 @@ class Settings extends Model
             'rowBlockType' => \Craft::t('matrix-horizontal-columns', 'Row Block Type'),
             'minBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Minimum Column Width'),
             'maxBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Maximum Column Width'),
-            'showScrollIndicators' => \Craft::t('matrix-horizontal-columns', 'Show Scroll Indicators'),
         ];
     }
 
@@ -83,7 +77,6 @@ class Settings extends Model
             'rowBlockType' => \Craft::t('matrix-horizontal-columns', 'The Matrix block type handle that should be treated as a vertical row'),
             'minBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Minimum width in pixels (100-2000)'),
             'maxBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Maximum width in pixels (100-2000)'),
-            'showScrollIndicators' => \Craft::t('matrix-horizontal-columns', 'Show visual indicators when horizontal scrolling is available'),
         ];
     }
 } 

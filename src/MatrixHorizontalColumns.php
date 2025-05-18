@@ -68,7 +68,6 @@ class MatrixHorizontalColumns extends Plugin
                                     'rowBlockType' => $settings->rowBlockType,
                                     'minBlockWidth' => $settings->minBlockWidth,
                                     'maxBlockWidth' => $settings->maxBlockWidth,
-                                    'showScrollIndicators' => $settings->showScrollIndicators,
                                 ], JSON_THROW_ON_ERROR) . ';',
                                 View::POS_BEGIN
                             );
