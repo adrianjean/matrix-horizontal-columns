@@ -18,10 +18,36 @@ Garnish.$doc.ready(() => {
         return;
     }
 
-    // Apply row class to row blocks
-    if (rowBlockType) {
-        $(`[data-type="${rowBlockType}"]`).addClass('matrix-horizontal-row');
-    }
+    // Function to initialize row blocks
+    const initRowBlocks = () => {
+        if (rowBlockType) {
+            $(`[data-type="${rowBlockType}"]`).addClass('matrix-horizontal-row');
+        }
+    };
+
+    // Initialize existing row blocks
+    initRowBlocks();
+
+    // Listen for clicks on the column block type button
+    Garnish.$doc.on('click', `button[data-type="${columnBlockType}"]`, function() {
+        // Wait for the block to be created
+        setTimeout(initRowBlocks, 100);
+    });
+
+    // Listen for Matrix blocks being added via "Add block above/below"
+    Garnish.$doc.on('click', '.matrix .menubtn', function(e) {
+        const $btn = $(this);
+        // Wait for the menu to be created
+        setTimeout(() => {
+            const $menu = $btn.data('trigger').$container;
+            if ($menu) {
+                $menu.on('click', 'a', function() {
+                    // Wait for the block to be created
+                    setTimeout(initRowBlocks, 100);
+                });
+            }
+        }, 100);
+    });
 
     // Store the original drag initialization
     const originalDragInit = Garnish.Drag.prototype.init;
@@ -125,4 +151,9 @@ Garnish.$doc.ready(() => {
         // Call the original init with our modified settings
         originalDragSortInit.call(this, items, settings);
     };
+
+    // Listen for Matrix block addition via paste
+    Garnish.$doc.on('paste', '.matrix', function() {
+        setTimeout(initRowBlocks, 100);
+    });
 });
