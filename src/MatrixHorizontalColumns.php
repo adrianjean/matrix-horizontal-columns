@@ -23,7 +23,7 @@ use yii\base\Event;
  * @method Settings getSettings()
  *
  * @author adrianjean
- * @copyright 2024 adrianjean
+ * @copyright Copyright (c) 2025 Adrian Jean
  * @license MIT
  */
 class MatrixHorizontalColumns extends Plugin
