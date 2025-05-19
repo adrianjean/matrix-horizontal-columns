@@ -18,6 +18,7 @@
             name: 'enabled',
             on: settings.enabled,
             errors: settings.getErrors('enabled'),
+            warning: craft.app.config.getConfigFromFile('matrix-horizontal-columns')['enabled'] is defined ? 'This setting is being overridden by the config file.'|t('matrix-horizontal-columns'),
         }) }}
 
         <hr>
@@ -34,6 +35,7 @@
             value: settings.rowBlockType,
             placeholder: 'cbRow',
             errors: settings.getErrors('rowBlockType'),
+            warning: craft.app.config.getConfigFromFile('matrix-horizontal-columns')['rowBlockType'] is defined ? 'This setting is being overridden by the config file.'|t('matrix-horizontal-columns'),
         }) }}
 
         {{ forms.textField({
@@ -44,6 +46,7 @@
             value: settings.columnBlockType,
             placeholder: 'cbColumn',
             errors: settings.getErrors('columnBlockType'),
+            warning: craft.app.config.getConfigFromFile('matrix-horizontal-columns')['columnBlockType'] is defined ? 'This setting is being overridden by the config file.'|t('matrix-horizontal-columns'),
         }) }}
 
         <hr>
