@@ -48,30 +48,6 @@
 
         <hr>
 
-        <h2>{{ "Visual Settings"|t('matrix-horizontal-columns') }}</h2>
-
-        {{ forms.textField({
-            label: "Minimum Column Width (pixels)"|t('matrix-horizontal-columns'),
-            id: 'minBlockWidth',
-            name: 'minBlockWidth',
-            value: settings.minBlockWidth,
-            type: 'number',
-            size: 6,
-            errors: settings.getErrors('minBlockWidth'),
-        }) }}
-
-        {{ forms.textField({
-            label: "Maximum Column Width (pixels)"|t('matrix-horizontal-columns'),
-            id: 'maxBlockWidth',
-            name: 'maxBlockWidth',
-            value: settings.maxBlockWidth,
-            type: 'number',
-            size: 6,
-            errors: settings.getErrors('maxBlockWidth'),
-        }) }}
-
-        <hr>
-
         <div class="buttons">
             <button type="submit" class="btn submit">{{ "Save"|t('matrix-horizontal-columns') }}</button>
         </div>

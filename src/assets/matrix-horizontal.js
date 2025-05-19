@@ -11,8 +11,6 @@ Garnish.$doc.ready(() => {
         enabled = true,
         columnBlockType = '',
         rowBlockType = '',
-        minBlockWidth = 200,
-        maxBlockWidth = 800,
     } = settings;
 
     // Exit if disabled
@@ -23,14 +21,6 @@ Garnish.$doc.ready(() => {
     // Apply row class to row blocks
     if (rowBlockType) {
         $(`[data-type="${rowBlockType}"]`).addClass('matrix-horizontal-row');
-    }
-
-    // Apply width settings to column blocks
-    if (columnBlockType) {
-        $(`[data-type="${columnBlockType}"] .matrix-field .block`).css({
-            'min-width': minBlockWidth + 'px',
-            'max-width': maxBlockWidth + 'px'
-        });
     }
 
     // Store the original drag initialization
@@ -75,12 +65,6 @@ Garnish.$doc.ready(() => {
                 onDrag: function() {
                     handleAutoScroll($container);
                 }
-            });
-
-            // Apply visual settings to dragged items
-            $(items).css({
-                'min-width': minBlockWidth + 'px',
-                'max-width': maxBlockWidth + 'px'
             });
         }
         
@@ -134,8 +118,6 @@ Garnish.$doc.ready(() => {
                     .css({
                         'opacity': 0.85, // Fixed value for consistent behavior
                         'transform': 'scale(1.02)', // Fixed value for consistent behavior
-                        'min-width': minBlockWidth + 'px',
-                        'max-width': maxBlockWidth + 'px'
                     });
             };
         }

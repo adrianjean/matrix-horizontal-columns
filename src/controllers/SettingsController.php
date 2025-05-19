@@ -45,8 +45,6 @@ class SettingsController extends Controller
         $settings->enabled = (bool)$request->getBodyParam('enabled', $settings->enabled);
         $settings->columnBlockType = trim($request->getBodyParam('columnBlockType', $settings->columnBlockType));
         $settings->rowBlockType = trim($request->getBodyParam('rowBlockType', $settings->rowBlockType));
-        $settings->minBlockWidth = (int)$request->getBodyParam('minBlockWidth', $settings->minBlockWidth);
-        $settings->maxBlockWidth = (int)$request->getBodyParam('maxBlockWidth', $settings->maxBlockWidth);
 
         // Validate
         if (!$settings->validate()) {

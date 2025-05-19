@@ -28,26 +28,14 @@ class Settings extends Model
     public string $rowBlockType = 'cbRow';
 
     /**
-     * @var int Minimum width for Matrix columns (pixels)
-     */
-    public int $minBlockWidth = 200;
-
-    /**
-     * @var int Maximum width for Matrix columns (pixels)
-     */
-    public int $maxBlockWidth = 800;
-
-    /**
      * @inheritdoc
      */
     public function rules(): array
     {
         return [
             ['enabled', 'boolean'],
-            [['minBlockWidth', 'maxBlockWidth'], 'integer', 'min' => 100, 'max' => 2000],
             [['columnBlockType', 'rowBlockType'], 'string', 'min' => 1],
             [['columnBlockType', 'rowBlockType'], 'required'],
-            ['maxBlockWidth', 'compare', 'compareAttribute' => 'minBlockWidth', 'operator' => '>='],
             ['columnBlockType', 'compare', 'compareAttribute' => 'rowBlockType', 'operator' => '!=', 
              'message' => 'Column and Row block types must be different'],
         ];
@@ -62,8 +50,6 @@ class Settings extends Model
             'enabled' => \Craft::t('matrix-horizontal-columns', 'Enable Matrix Horizontal Columns'),
             'columnBlockType' => \Craft::t('matrix-horizontal-columns', 'Column Block Type'),
             'rowBlockType' => \Craft::t('matrix-horizontal-columns', 'Row Block Type'),
-            'minBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Minimum Column Width'),
-            'maxBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Maximum Column Width'),
         ];
     }
 
@@ -75,8 +61,6 @@ class Settings extends Model
         return [
             'columnBlockType' => \Craft::t('matrix-horizontal-columns', 'The Matrix block type handle that should be treated as a horizontal column'),
             'rowBlockType' => \Craft::t('matrix-horizontal-columns', 'The Matrix block type handle that should be treated as a vertical row'),
-            'minBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Minimum width in pixels (100-2000)'),
-            'maxBlockWidth' => \Craft::t('matrix-horizontal-columns', 'Maximum width in pixels (100-2000)'),
         ];
     }
 } 
