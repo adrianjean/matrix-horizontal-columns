@@ -25,6 +25,14 @@ Garnish.$doc.ready(() => {
         $(`[data-type="${rowBlockType}"]`).addClass('matrix-horizontal-row');
     }
 
+    // Apply width settings to column blocks
+    if (columnBlockType) {
+        $(`[data-type="${columnBlockType}"] .matrix-field .block`).css({
+            'min-width': minBlockWidth + 'px',
+            'max-width': maxBlockWidth + 'px'
+        });
+    }
+
     // Store the original drag initialization
     const originalDragInit = Garnish.Drag.prototype.init;
     const originalDragSortInit = Garnish.DragSort.prototype.init;
