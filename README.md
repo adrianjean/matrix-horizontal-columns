@@ -59,8 +59,8 @@ You can also set configuration settings in a version controlled config file:
 
 return [
     'enabled' => true,
-    'columnBlockType' => 'cbColumn',
     'rowBlockType' => 'cbRow',
+    'columnBlockType' => 'cbColumn',
 ];
 ```
 
