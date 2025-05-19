@@ -6,9 +6,8 @@ This plugin enables horizontal column layout functionality for Matrix fields in 
 
 - Horizontal drag-and-drop ordering for column blocks
 - Vertical drag-and-drop ordering for row blocks
-- Customizable minimum and maximum column widths
-- Visual scroll indicators for better navigation
 - Simple configuration through the control panel
+- Automatic horizontal scrolling during drag operations
 
 ## Requirements
 
@@ -27,36 +26,29 @@ Then, go to Settings → Plugins and click the "Install" button for Matrix Horiz
 
 ## Configuration
 
-Configure the plugin through the Craft CP under Settings → Matrix Horizontal Columns. The settings are straightforward:
+Configure the plugin through the Craft CP under Settings → Matrix Horizontal Columns.
 
 ### Basic Settings
 - **Enable/Disable**: Toggle the plugin functionality on/off
-- **Show Scroll Indicators**: Enable visual indicators when columns can be scrolled left/right
 
 ### Block Type Settings
-- **Column Block Type**: Enter the handle of the Matrix block type that should behave as a horizontal column
-- **Row Block Type**: Enter the handle of the Matrix block type that should maintain vertical ordering
+- **Row Entry Type Handle**: Enter the handle of the Matrix block type that should behave as a row container (Default: `cbRow`)
+- **Column Entry Type Handle**: Enter the handle of the Matrix block type that should behave as a horizontal column (Default: `cbColumn`)
 
-### Column Width Settings
-- **Minimum Block Width**: Set the minimum width (in pixels) for column blocks
-- **Maximum Block Width**: Set the maximum width (in pixels) for column blocks
-
-### Example Configuration
+### Example Matrix Field Structure
 
 1. Create your Matrix field with at least two block types:
    ```
    Matrix Field: "pageLayout"
-   ├── Block Type: "column" (handle: column)
-   └── Block Type: "section" (handle: section)
+   ├── Block Type: "cbRow" (handle: cbRow)
+   └── Block Type: "cbColumn" (handle: cbColumn)
    ```
 
 2. In the plugin settings:
-   - Set "Column Block Type" to `column`
-   - Set "Row Block Type" to `section`
-   - Set desired min/max widths (e.g., 250px and 500px)
-   - Enable scroll indicators if desired
+   - Set "Row Entry Type Handle" to `cbRow`
+   - Set "Column Entry Type Handle" to `cbColumn`
 
-Now blocks of type "column" will be draggable horizontally within their container, while "section" blocks will maintain vertical ordering.
+Now blocks of type "cbColumn" will be draggable horizontally within their "cbRow" container.
 
 ## Configuration using matrix-horizontal-columns.php
 
@@ -73,9 +65,6 @@ return [
     'enabled' => true,
     'columnBlockType' => 'cbColumn',
     'rowBlockType' => 'cbRow',
-    'minBlockWidth' => 250,
-    'maxBlockWidth' => 500,
-    'showScrollIndicators' => true,
 ];
 ```
 
@@ -85,7 +74,6 @@ return [
 2. Create blocks of your designated column and row types
 3. Drag column blocks horizontally to arrange them in rows
 4. Drag row blocks vertically to arrange them in the desired order
-5. The scroll indicators will show when there are more columns than can fit in the viewport
 
 ## Support
 
