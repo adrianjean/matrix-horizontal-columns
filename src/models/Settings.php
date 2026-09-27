@@ -8,7 +8,6 @@ use craft\base\Model;
 use craft\fields\ButtonGroup;
 use craft\fields\Dropdown;
 use craft\fields\Number;
-use craft\fields\RadioButtons;
 use craft\helpers\StringHelper;
 use craft\models\EntryType;
 
@@ -24,7 +23,6 @@ class Settings extends Model
      * Field types that can hold a column width.
      */
     public const WIDTH_FIELD_TYPES = [
-        RadioButtons::class,
         Dropdown::class,
         ButtonGroup::class,
         Number::class,
@@ -182,7 +180,7 @@ class Settings extends Model
         }
 
         if (!self::isWidthFieldType($field)) {
-            $this->addError($attribute, Craft::t('matrix-horizontal-columns', 'The width field must be a Radio Buttons, Dropdown, Button Group or Number field.'));
+            $this->addError($attribute, Craft::t('matrix-horizontal-columns', 'The width field must be a Dropdown, Button Group or Number field.'));
             return;
         }
 
@@ -195,7 +193,7 @@ class Settings extends Model
         }
     }
 
-    private static function isWidthFieldType(FieldInterface $field): bool
+    public static function isWidthFieldType(FieldInterface $field): bool
     {
         foreach (self::WIDTH_FIELD_TYPES as $class) {
             if ($field instanceof $class) {

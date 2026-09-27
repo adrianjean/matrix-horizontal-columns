@@ -1,5 +1,15 @@
 # Release Notes for Matrix Horizontal Columns
 
+## 2.2.0 - 2026-09-27
+
+### Added
+- Columns can be resized by dragging a handle on their right edge, snapping to the grid and to the widths the width field allows. The handle can also be focused and adjusted with the arrow, Home and End keys.
+- Grid guides show while a column is being resized or dragged.
+- Lines that don't fill the whole row show their free space as a dashed outline labelled with how much of the row they use (e.g. `8 / 12`).
+
+### Removed
+- Radio Buttons fields can no longer be used as the width field. Use a Dropdown, Button Group or Number field instead (a Radio Buttons field can be converted to a Dropdown or Button Group without losing content).
+
 ## 2.1.0 - 2026-09-27
 
 > [!WARNING]

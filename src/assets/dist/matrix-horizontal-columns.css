@@ -7,10 +7,15 @@
 
 .mhc-grid {
   --mhc-gap: 10px;
+  --mhc-accent: var(--link-color, #2563eb);
+  --mhc-guide-color: color-mix(in srgb, var(--mhc-accent) 10%, transparent);
+  --mhc-fill-color: var(--notice-color, #b45309);
+  position: relative;
 }
 
 .mhc-grid > .blocks {
   container: mhc-row / inline-size;
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
@@ -28,9 +33,136 @@
   margin: 0 !important;
 }
 
+/* Grid guides — shown while resizing or dragging */
+
+.mhc-grid.mhc-guides > .blocks::after {
+  --mhc-col: calc((100% - (var(--mhc-grid-columns) - 1) * var(--mhc-gap)) / var(--mhc-grid-columns));
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to right,
+    var(--mhc-guide-color) 0,
+    var(--mhc-guide-color) var(--mhc-col),
+    transparent var(--mhc-col),
+    transparent calc(var(--mhc-col) + var(--mhc-gap))
+  );
+  outline: 1px dashed color-mix(in srgb, var(--mhc-accent) 35%, transparent);
+}
+
+/* Resize handle on each column's right edge */
+
+.mhc-resize {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--mhc-gap) / -2 - 4px);
+  z-index: 3;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.mhc-resize::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 32px;
+  max-height: 60%;
+  border-radius: 2px;
+  background: var(--gray-300, #cbd5e1);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.15s, background-color 0.15s;
+}
+
+.matrixblock:hover > .mhc-resize::before,
+.mhc-resize:focus-visible::before,
+.mhc-resizing > .mhc-resize::before {
+  opacity: 1;
+}
+
+.mhc-resize:hover::before,
+.mhc-resize:focus-visible::before,
+.mhc-resizing > .mhc-resize::before {
+  background: var(--mhc-accent);
+}
+
+.mhc-resize:focus-visible {
+  outline: none;
+}
+
+.mhc-resize:focus-visible::before {
+  box-shadow: var(--focus-ring, 0 0 0 2px var(--mhc-accent));
+}
+
+/* Live "6 / 12" while resizing */
+.mhc-resize-label {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  padding: 2px 6px;
+  border-radius: var(--small-border-radius, 4px);
+  background: var(--mhc-accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.mhc-resizing > .mhc-resize .mhc-resize-label,
+.mhc-resize:focus-visible .mhc-resize-label {
+  display: block;
+}
+
+.mhc-resizing,
+.mhc-resizing * {
+  user-select: none;
+}
+
+/* Free space at the end of partly-filled lines */
+
+.mhc-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.mhc-fill {
+  position: absolute;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed color-mix(in srgb, var(--mhc-fill-color) 45%, transparent);
+  border-radius: var(--large-border-radius, 5px);
+  background: color-mix(in srgb, var(--mhc-fill-color) 5%, transparent);
+  pointer-events: auto;
+}
+
+.mhc-fill-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--mhc-fill-color);
+  white-space: nowrap;
+}
+
 /* Too narrow to be useful side-by-side: stack, like below Bootstrap's breakpoint */
 @container mhc-row (max-width: 480px) {
   .mhc-grid > .blocks > .matrixblock {
     flex-basis: 100%;
+  }
+
+  .mhc-resize {
+    display: none;
   }
 }

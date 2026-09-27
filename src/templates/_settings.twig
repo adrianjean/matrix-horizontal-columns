@@ -49,7 +49,7 @@
 {% set widthField = settings.getWidthField() %}
 {{ forms.fieldSelectField({
   label: 'Column Width Field'|t('matrix-horizontal-columns'),
-  instructions: 'A Radio Buttons, Dropdown, Button Group or Number field in the column entry type’s layout, holding its width in grid columns (e.g. 1–12). Leave empty to make every column full width.'|t('matrix-horizontal-columns'),
+  instructions: 'A Dropdown, Button Group or Number field in the column entry type’s layout, holding its width in grid columns (e.g. 1–12). Leave empty to make every column full width.'|t('matrix-horizontal-columns'),
   id: 'widthField',
   name: 'widthField',
   options: widthFieldOptions,

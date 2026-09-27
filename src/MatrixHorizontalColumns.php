@@ -79,8 +79,23 @@ class MatrixHorizontalColumns extends Plugin
         $view->registerJsVar('MatrixHorizontalColumnsSettings', [
             'rowEntryTypeId' => $rowEntryType->id,
             'columnEntryTypeId' => $columnEntryType->id,
-            'widthField' => $settings->getWidthFieldLayoutHandle(),
+            'widthField' => $this->widthFieldHandle($settings),
             'gridColumns' => $settings->gridColumns,
         ]);
+        $view->registerTranslations('matrix-horizontal-columns', [
+            'Column width',
+            'Drag to resize',
+            '{free} of {grid} columns free on this line',
+        ]);
+    }
+
+    /**
+     * Handle of the width field in the column layout, if it's a supported type.
+     */
+    private function widthFieldHandle(Settings $settings): ?string
+    {
+        $field = $settings->getWidthField();
+
+        return $field && Settings::isWidthFieldType($field) ? $settings->getWidthFieldLayoutHandle() : null;
     }
 }
