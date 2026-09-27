@@ -1,6 +1,20 @@
 # Release Notes for Matrix Horizontal Columns
 
-## 2.0.0 - Unreleased
+## 2.1.0 - 2026-09-27
+
+> [!WARNING]
+> The row and column entry types no longer default to `cbRow` / `cbColumn`, and the width field no longer defaults to `cbSettingColumnWidthDesktop`. If you relied on those defaults, pick them in the plugin settings (or set them in `config/matrix-horizontal-columns.php`) after updating.
+
+### Added
+- The row entry type, column entry type and width field are now chosen with Craft's native pickers.
+- Button Group fields can be used as the width field.
+- Settings validation checks that the entry types exist, differ, and that the width field is a supported type in the column entry type's layout.
+
+### Changed
+- Settings are stored by UID in project config. Handles are still accepted in `config/matrix-horizontal-columns.php`.
+- Entry types are matched by ID and the width field by its field-layout handle, so Matrix and field-layout handle overrides are respected.
+
+## 2.0.0 - 2026-09-27
 
 > [!IMPORTANT]
 > Complete rewrite. Settings `rowBlockType` / `columnBlockType` are now `rowEntryType` / `columnEntryType` (the old names are still accepted).

@@ -39,25 +39,32 @@ php craft plugin/install matrix-horizontal-columns
 
 ## Configuration
 
-Go to **Settings → Plugins → Matrix Horizontal Columns**, or create `config/matrix-horizontal-columns.php`:
+Go to **Settings → Plugins → Matrix Horizontal Columns** and pick:
+
+- **Row Entry Type** – the entry type that contains the columns
+- **Column Entry Type** – the entry type laid out side-by-side within a row
+- **Column Width Field** – a Radio Buttons, Dropdown, Button Group or Number field in the column entry type's layout, holding its width in grid columns. Leave empty to make every column full width.
+- **Grid Columns** – how many columns make up a full row (default 12)
+
+Entry types are matched by ID and the width field by its handle in the column's field layout, so handle overrides on Matrix fields and field layouts are respected. Settings are stored by UID in project config.
+
+The plugin does nothing until the row and column entry types are set.
+
+### Config file
+
+Settings can also be set in `config/matrix-horizontal-columns.php`, which overrides and locks them in the control panel. Entry types and the width field can be given as UIDs or handles:
 
 ```php
 <?php
 
 return [
     'enabled' => true,
-    // Entry type that contains the columns
     'rowEntryType' => 'cbRow',
-    // Entry type laid out side-by-side within a row
     'columnEntryType' => 'cbColumn',
-    // Field on the column entry type holding its width. '' = every column full width
     'widthField' => 'cbSettingColumnWidthDesktop',
-    // Columns in a full row
     'gridColumns' => 12,
 ];
 ```
-
-The width field can be any field whose value is a number: Radio Buttons, Dropdown, or Number.
 
 ## Styling
 

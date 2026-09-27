@@ -57,6 +57,7 @@ class MatrixHorizontalColumns extends Plugin
     {
         return Craft::$app->getView()->renderTemplate('matrix-horizontal-columns/_settings', [
             'settings' => $this->getSettings(),
+            'widthFieldOptions' => Settings::widthFieldOptions(),
             'overrides' => Craft::$app->getConfig()->getConfigFromFile($this->handle),
         ]);
     }
@@ -64,13 +65,21 @@ class MatrixHorizontalColumns extends Plugin
     private function registerAssets(): void
     {
         $settings = $this->getSettings();
-        $view = Craft::$app->getView();
+        $rowEntryType = $settings->getRowEntryType();
+        $columnEntryType = $settings->getColumnEntryType();
 
+        // Not configured yet
+        if (!$rowEntryType || !$columnEntryType) {
+            return;
+        }
+
+        $view = Craft::$app->getView();
         $view->registerAssetBundle(MatrixHorizontalColumnsAsset::class);
+        // Entry types are matched by ID, since a Matrix field can override their handles
         $view->registerJsVar('MatrixHorizontalColumnsSettings', [
-            'rowEntryType' => $settings->rowEntryType,
-            'columnEntryType' => $settings->columnEntryType,
-            'widthField' => $settings->widthField,
+            'rowEntryTypeId' => $rowEntryType->id,
+            'columnEntryTypeId' => $columnEntryType->id,
+            'widthField' => $settings->getWidthFieldLayoutHandle(),
             'gridColumns' => $settings->gridColumns,
         ]);
     }

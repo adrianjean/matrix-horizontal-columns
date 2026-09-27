@@ -16,28 +16,28 @@
 
 <p>{{ 'The plugin expects a Matrix field containing a **row** entry type, which has its own Matrix field of **column** entry types.'|t('matrix-horizontal-columns')|md(inlineOnly=true) }}</p>
 
-{{ forms.textField({
-  label: 'Row Entry Type Handle'|t('matrix-horizontal-columns'),
+{% set rowEntryType = settings.getRowEntryType() %}
+{{ forms.entryTypeSelectField({
+  label: 'Row Entry Type'|t('matrix-horizontal-columns'),
   instructions: 'The entry type that contains the columns.'|t('matrix-horizontal-columns'),
   id: 'rowEntryType',
   name: 'rowEntryType',
-  value: settings.rowEntryType,
-  placeholder: 'cbRow',
-  class: 'code',
+  values: rowEntryType ? [rowEntryType] : [],
+  limit: 1,
   required: true,
   errors: settings.getErrors('rowEntryType'),
   disabled: overrides.rowEntryType is defined,
   warning: overrides.rowEntryType is defined ? overrideMsg,
 }) }}
 
-{{ forms.textField({
-  label: 'Column Entry Type Handle'|t('matrix-horizontal-columns'),
+{% set columnEntryType = settings.getColumnEntryType() %}
+{{ forms.entryTypeSelectField({
+  label: 'Column Entry Type'|t('matrix-horizontal-columns'),
   instructions: 'The entry type laid out side-by-side within a row.'|t('matrix-horizontal-columns'),
   id: 'columnEntryType',
   name: 'columnEntryType',
-  value: settings.columnEntryType,
-  placeholder: 'cbColumn',
-  class: 'code',
+  values: columnEntryType ? [columnEntryType] : [],
+  limit: 1,
   required: true,
   errors: settings.getErrors('columnEntryType'),
   disabled: overrides.columnEntryType is defined,
@@ -46,14 +46,15 @@
 
 <hr>
 
-{{ forms.textField({
-  label: 'Column Width Field Handle'|t('matrix-horizontal-columns'),
-  instructions: 'A field on the column entry type holding its width in grid columns (e.g. Radio Buttons or Dropdown with values 1–12). Leave blank to make every column full width.'|t('matrix-horizontal-columns'),
+{% set widthField = settings.getWidthField() %}
+{{ forms.fieldSelectField({
+  label: 'Column Width Field'|t('matrix-horizontal-columns'),
+  instructions: 'A Radio Buttons, Dropdown, Button Group or Number field in the column entry type’s layout, holding its width in grid columns (e.g. 1–12). Leave empty to make every column full width.'|t('matrix-horizontal-columns'),
   id: 'widthField',
   name: 'widthField',
-  value: settings.widthField,
-  placeholder: 'cbSettingColumnWidthDesktop',
-  class: 'code',
+  options: widthFieldOptions,
+  values: widthField ? [widthField] : [],
+  limit: 1,
   errors: settings.getErrors('widthField'),
   disabled: overrides.widthField is defined,
   warning: overrides.widthField is defined ? overrideMsg,

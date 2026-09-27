@@ -14,25 +14,31 @@
 
   const settings = Object.assign(
     {
-      rowEntryType: 'cbRow',
-      columnEntryType: 'cbColumn',
-      widthField: 'cbSettingColumnWidthDesktop',
+      rowEntryTypeId: null,
+      columnEntryTypeId: null,
+      widthField: null,
       gridColumns: 12,
     },
     window.MatrixHorizontalColumnsSettings
   );
 
+  if (!settings.rowEntryTypeId || !settings.columnEntryTypeId) {
+    return;
+  }
+
   const GRID = Math.max(1, parseInt(settings.gridColumns, 10) || 12);
 
   /**
    * Is this Matrix input the column list of a row entry?
+   *
+   * Entry types are compared by ID, since a Matrix field can override their handles.
    */
   function isColumnsInput(matrix) {
     const $owner = matrix.$container.parent().closest('.matrixblock');
 
     return (
-      $owner.attr('data-type') === settings.rowEntryType &&
-      !!matrix.entryTypesByHandle?.[settings.columnEntryType]
+      $owner.attr('data-type-id') == settings.rowEntryTypeId &&
+      (matrix.entryTypes || []).some((type) => type.id == settings.columnEntryTypeId)
     );
   }
 
@@ -81,20 +87,29 @@
       .filter((i, el) => $(el).closest('.matrixblock')[0] === $entry[0])
       .first();
 
-    const $radios = $field.find('input[type="radio"]');
-    const $input = $radios.length
-      ? $radios
-      : $field.find('select, input:not([type="hidden"])').first();
-
-    const read = () => {
-      const value = $radios.length
-        ? $radios.filter(':checked').val()
-        : $input.val();
-      applySpan($entry, value);
-    };
+    const read = () => applySpan($entry, readValue($field));
 
     read();
-    $input.on('change input', read);
+    // Button Group sets a hidden input without firing change, so also re-read after clicks
+    $field.on('change input click keyup', () => Garnish.requestAnimationFrame(read));
+  }
+
+  /**
+   * Current value of a Radio Buttons, Dropdown, Button Group or Number field.
+   */
+  function readValue($field) {
+    const $radios = $field.find('input[type="radio"]');
+    if ($radios.length) {
+      return $radios.filter(':checked').val();
+    }
+
+    const $input = $field.find('select, input:not([type="hidden"])').first();
+    if ($input.length) {
+      return $input.val();
+    }
+
+    // Button Group
+    return $field.find('input[type="hidden"][name]').last().val();
   }
 
   /**
