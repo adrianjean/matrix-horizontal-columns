@@ -1,6 +1,14 @@
+<img width="1223" height="769" alt="mhc-one" src="https://github.com/user-attachments/assets/11c05c48-2059-47c1-88ad-e01ccefa943c" />
+<img width="1219" height="762" alt="mhc-two" src="https://github.com/user-attachments/assets/afdc0f6f-5965-4325-9d3d-72d197167364" />
+
+
 # Matrix Horizontal Columns for Craft CMS
 
 Turns a nested **row → columns** Matrix setup into a real grid in the control panel. Column entries sit side-by-side at the width they'll have on the front end, wrap like a Bootstrap row, and can be dragged into place in any direction.
+
+The plugin doesn't touch content or the database beyond its own settings and adjusting the "Width" setting. Aside from that it only changes how the page builder UI looks in the control panel, so it's safe to try and uninstall without impacting page content.
+
+**Important:** This plugin does not create a page builder or any of the blocks, fields, or entry types needed for one. All it does is hook into an existing page builder with a required specific structure to work properly.
 
 ## Requirements
 
