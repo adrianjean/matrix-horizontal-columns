@@ -1,5 +1,10 @@
 # Release Notes for Matrix Horizontal Columns
 
+## 2.2.1 - 2026-09-27
+
+### Changed
+- Matrix Horizontal Columns now requires Craft 5.10.0 or later, which added the field picker used by the Column Width Field setting.
+
 ## 2.2.0 - 2026-09-27
 
 ### Added
@@ -39,6 +44,3 @@
 - Uses Craft's own `Craft.MatrixInput` events and drag-sorter instead of overriding `Garnish.Drag` / `Garnish.DragSort` globally.
 - Assets only load alongside Matrix inputs (including slideouts).
 - Settings use Craft's native plugin settings page.
-
-## 1.0.15 - 2025-05-19
-- Last 1.x release.

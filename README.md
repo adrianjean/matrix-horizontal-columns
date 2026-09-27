@@ -4,7 +4,7 @@ Turns a nested **row → columns** Matrix setup into a real grid in the control 
 
 ## Requirements
 
-- Craft CMS 5.0.0 or later
+- Craft CMS 5.10.0 or later
 - PHP 8.2 or later
 
 ## How it works
