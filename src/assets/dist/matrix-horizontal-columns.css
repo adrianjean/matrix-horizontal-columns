@@ -1,0 +1,36 @@
+/**
+ * Matrix Horizontal Columns
+ *
+ * Column entries flow left-to-right and wrap like a Bootstrap row. Each entry's
+ * width is --mhc-span / --mhc-grid-columns of the row, set from its width field.
+ */
+
+.mhc-grid {
+  --mhc-gap: 10px;
+}
+
+.mhc-grid > .blocks {
+  container: mhc-row / inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--mhc-gap);
+}
+
+.mhc-grid > .blocks > .matrixblock {
+  box-sizing: border-box;
+  flex: 0 0 calc(
+    (100% + var(--mhc-gap)) * var(--mhc-span, var(--mhc-grid-columns)) / var(--mhc-grid-columns) - var(--mhc-gap)
+  );
+  max-width: 100%;
+  min-width: 0;
+  /* The gap handles spacing; also neutralizes Craft's inline margin animation on new entries */
+  margin: 0 !important;
+}
+
+/* Too narrow to be useful side-by-side: stack, like below Bootstrap's breakpoint */
+@container mhc-row (max-width: 480px) {
+  .mhc-grid > .blocks > .matrixblock {
+    flex-basis: 100%;
+  }
+}

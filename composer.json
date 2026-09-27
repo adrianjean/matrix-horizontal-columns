@@ -1,0 +1,45 @@
+{
+    "name": "adrianjean/matrix-horizontal-columns",
+    "description": "Lays out nested Matrix column entries side-by-side on a 12-column grid in the control panel, with drag-and-drop reordering in any direction.",
+    "type": "craft-plugin",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "matrix",
+        "columns",
+        "grid",
+        "page builder"
+    ],
+    "support": {
+        "docs": "https://github.com/adrianjean/matrix-horizontal-columns/blob/main/README.md",
+        "issues": "https://github.com/adrianjean/matrix-horizontal-columns/issues",
+        "source": "https://github.com/adrianjean/matrix-horizontal-columns"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Jean",
+            "homepage": "https://github.com/adrianjean"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "craftcms/cms": "^5.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "adrianjean\\matrixhorizontalcolumns\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Matrix Horizontal Columns",
+        "handle": "matrix-horizontal-columns",
+        "developer": "Adrian Jean",
+        "developerUrl": "https://github.com/adrianjean",
+        "documentationUrl": "https://github.com/adrianjean/matrix-horizontal-columns/blob/main/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/adrianjean/matrix-horizontal-columns/main/CHANGELOG.md",
+        "class": "adrianjean\\matrixhorizontalcolumns\\MatrixHorizontalColumns"
+    }
+}

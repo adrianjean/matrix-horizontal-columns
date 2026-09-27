@@ -1,0 +1,76 @@
+{% import '_includes/forms' as forms %}
+
+{% set overrideMsg = 'This is being overridden in `config/matrix-horizontal-columns.php`.'|t('matrix-horizontal-columns') %}
+
+{{ forms.lightswitchField({
+  label: 'Enabled'|t('matrix-horizontal-columns'),
+  instructions: 'Lay out column entries side-by-side in the control panel.'|t('matrix-horizontal-columns'),
+  id: 'enabled',
+  name: 'enabled',
+  on: settings.enabled,
+  disabled: overrides.enabled is defined,
+  warning: overrides.enabled is defined ? overrideMsg,
+}) }}
+
+<hr>
+
+<p>{{ 'The plugin expects a Matrix field containing a **row** entry type, which has its own Matrix field of **column** entry types.'|t('matrix-horizontal-columns')|md(inlineOnly=true) }}</p>
+
+{{ forms.textField({
+  label: 'Row Entry Type Handle'|t('matrix-horizontal-columns'),
+  instructions: 'The entry type that contains the columns.'|t('matrix-horizontal-columns'),
+  id: 'rowEntryType',
+  name: 'rowEntryType',
+  value: settings.rowEntryType,
+  placeholder: 'cbRow',
+  class: 'code',
+  required: true,
+  errors: settings.getErrors('rowEntryType'),
+  disabled: overrides.rowEntryType is defined,
+  warning: overrides.rowEntryType is defined ? overrideMsg,
+}) }}
+
+{{ forms.textField({
+  label: 'Column Entry Type Handle'|t('matrix-horizontal-columns'),
+  instructions: 'The entry type laid out side-by-side within a row.'|t('matrix-horizontal-columns'),
+  id: 'columnEntryType',
+  name: 'columnEntryType',
+  value: settings.columnEntryType,
+  placeholder: 'cbColumn',
+  class: 'code',
+  required: true,
+  errors: settings.getErrors('columnEntryType'),
+  disabled: overrides.columnEntryType is defined,
+  warning: overrides.columnEntryType is defined ? overrideMsg,
+}) }}
+
+<hr>
+
+{{ forms.textField({
+  label: 'Column Width Field Handle'|t('matrix-horizontal-columns'),
+  instructions: 'A field on the column entry type holding its width in grid columns (e.g. Radio Buttons or Dropdown with values 1–12). Leave blank to make every column full width.'|t('matrix-horizontal-columns'),
+  id: 'widthField',
+  name: 'widthField',
+  value: settings.widthField,
+  placeholder: 'cbSettingColumnWidthDesktop',
+  class: 'code',
+  errors: settings.getErrors('widthField'),
+  disabled: overrides.widthField is defined,
+  warning: overrides.widthField is defined ? overrideMsg,
+}) }}
+
+{{ forms.textField({
+  label: 'Grid Columns'|t('matrix-horizontal-columns'),
+  instructions: 'How many columns make up a full row.'|t('matrix-horizontal-columns'),
+  id: 'gridColumns',
+  name: 'gridColumns',
+  type: 'number',
+  min: 1,
+  max: 24,
+  size: 4,
+  value: settings.gridColumns,
+  required: true,
+  errors: settings.getErrors('gridColumns'),
+  disabled: overrides.gridColumns is defined,
+  warning: overrides.gridColumns is defined ? overrideMsg,
+}) }}
